@@ -1,0 +1,19 @@
+<article class="product-card" onclick="window.location.href='/products/<%= producto.id %>'">
+    <div class="card-img-container">
+        <% const imageSrc = producto.image ? producto.image : '/images/logo.png'; %>
+        <img src="<%= imageSrc %>" alt="<%= producto.name %>">
+        <% if (producto.stock === 0) { %>
+            <span class="no-stock-badge">Sin stock</span>
+        <% } %>
+    </div>
+    <div class="card-info">
+        <h3><%= producto.name %></h3>
+        <p class="price"><%= producto.price %> pts</p>
+        <form action="/cart/add" method="POST" onclick="event.stopPropagation();">
+            <input type="hidden" name="productId" value="<%= producto.id %>">
+            <button type="submit" class="btn-add-to-cart-card" <%= producto.stock === 0 ? 'disabled' : '' %>>
+                <i class="bi bi-cart-plus"></i> Agregar al carrito
+            </button>
+        </form>
+    </div>
+</article>

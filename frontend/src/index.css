@@ -1,0 +1,348 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+:root {
+    /* Tipografías Vimet */
+    --fuente-primaria: "Bebas Neue", sans-serif;
+    --fuente-secundaria: "Open Sans", sans-serif;
+    
+    /* Paleta de Colores Vimet */
+    --turquesa: #00cbd6;
+    --turquesa-oscuro: #00a8b2;
+    --blanco: #ffffff;
+    --gris-claro: #eeeeee;
+    --gris-oscuro: #202020;
+    --negro: #000000;
+    
+    /* Layout */
+    --sidebar-width: 296px;
+    --header-height: 72px; /* Nueva variable del Sprint 4 */
+}
+
+body {
+    font-family: var(--fuente-secundaria);
+    background-color: var(--blanco);
+    color: var(--negro);
+    overflow: hidden; /* Evita el scroll en toda la página, se delega a main-content */
+}
+
+/* --- ESTRUCTURA PRINCIPAL --- */
+.app-container {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* --- SIDEBAR (Menú lateral) --- */
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: var(--gris-claro);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease;
+    z-index: 10;
+    border-right: 2px solid #ddd;
+    height: 100vh; /* Asegura que llegue hasta abajo */
+}
+
+.sidebar-logo {
+    padding: 2rem;
+    text-align: center;
+    background-color: var(--negro);
+    color: var(--blanco);
+}
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    padding-top: 2rem;
+}
+
+.sidebar-menu li {
+    list-style: none;
+}
+
+.nav-item {
+    text-decoration: none;
+    color: var(--gris-oscuro);
+    font-size: 1.4rem;
+    font-family: var(--fuente-primaria);
+    letter-spacing: 1px;
+    padding: 1rem 2rem;
+    display: block;
+    transition: 0.3s ease-in-out;
+}
+
+.nav-item:hover {
+    background-color: var(--blanco);
+    color: var(--turquesa);
+    padding-left: 2.5rem; 
+}
+
+.nav-item.active {
+    color: var(--turquesa);
+    border-left: 5px solid var(--turquesa);
+    background-color: var(--blanco);
+}
+
+/* ========================================= */
+/* --- MAIN AREA (Implementación Sprint 4) --- */
+/* ========================================= */
+.main-area {
+    flex-grow: 1;
+    width: calc(100% - var(--sidebar-width));
+    height: 100vh; /* Altura total de la pantalla */
+    display: flex;
+    flex-direction: column; /* Apila el Header arriba y el Content abajo */
+}
+
+/* 1. Encabezado Fijo */
+.main-header {
+    height: var(--header-height); /* 72px fijos */
+    width: 100%;
+    flex-shrink: 0; /* Impide que el header colapse */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    background-color: var(--blanco);
+    border-bottom: 2px solid var(--gris-claro);
+}
+
+/* 2. Contenido Scrolleable */
+.main-content {
+    width: 100%;
+    height: calc(100vh - var(--header-height)); /* Altura restante */
+    overflow-y: auto; /* Permite el scroll interno */
+    padding: 2rem;
+    background-color: var(--blanco);
+}
+
+/* Estilo de la barra de scroll para el main-content */
+.main-content::-webkit-scrollbar {
+    width: 8px;
+}
+.main-content::-webkit-scrollbar-track {
+    background: var(--gris-claro); 
+}
+.main-content::-webkit-scrollbar-thumb {
+    background: var(--gris-oscuro); 
+    border-radius: 4px;
+}
+.main-content::-webkit-scrollbar-thumb:hover {
+    background: var(--turquesa); 
+}
+/* ========================================= */
+
+.menu-toggle {
+    display: none;
+    background-color: var(--negro);
+    color: var(--blanco);
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-bottom: 1rem;
+}
+
+/* --- TUS ESTILOS ADAPTADOS (Sección Hoodies/Productos) --- */
+.hoodies h2 {
+    font-family: var(--fuente-primaria);
+    font-size: 2.5rem;
+    letter-spacing: 2px;
+}
+
+.producto {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    place-items: center;
+    padding-bottom: 2rem; /* Espaciado extra abajo para que el scroll no corte el final */
+}
+
+.card {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    background-color: var(--gris-claro);
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.imagen {
+    width: 100%;
+    height: 18rem; 
+    background-color: var(--gris-oscuro);
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+.card h3 {
+    font-family: var(--fuente-primaria);
+    letter-spacing: 1.5px;
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.precio {
+    color: var(--turquesa-oscuro);
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+/* Botón Vimet */
+.boton {
+    text-decoration: none;
+    color: var(--blanco);
+    font-family: var(--fuente-primaria);
+    background-color: var(--negro);
+    padding: 0.8rem 2rem;
+    border: 1px solid transparent;
+    transition: 0.4s;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+.boton:hover {
+    border: 1px solid var(--turquesa);
+    background-color: var(--turquesa);
+    color: var(--negro);
+    transform: scale(1.05);
+    letter-spacing: 2px;
+}
+
+/* --- RESPONSIVE SEGÚN REQUERIMIENTO (Menor a 1024px) --- */
+@media (max-width: 1024px) {
+    .sidebar {
+        position: fixed;
+        height: 100vh;
+        transform: translateX(-100%);
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+        box-shadow: 4px 0 15px rgba(0,0,0,0.2);
+    }
+
+    .main-area {
+        width: 100%;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .producto {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 750px) {
+    .producto {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+@media (max-width: 750px) {
+    .producto {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+/* --- ESTILOS DEL DASHBOARD (HOME) --- */
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.stat-card {
+    background-color: var(--gris-claro);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid var(--negro);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.stat-card h3 {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 0.5rem;
+}
+
+.stat-value {
+    font-size: 2.5rem;
+    font-family: var(--fuente-primaria);
+    color: var(--negro);
+    margin-bottom: 0.5rem;
+}
+
+.stat-value.alerta {
+    color: #e74c3c; /* Rojo para alertas */
+}
+
+.stat-badge {
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+.stat-badge.success { color: #2ecc71; }
+.stat-badge.neutral { color: var(--turquesa-oscuro); }
+.stat-badge.danger { color: #e74c3c; }
+
+/* --- TABLA DUMMY --- */
+.recent-orders {
+    margin-top: 2rem;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+.dummy-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--blanco);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.dummy-table th, .dummy-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--gris-claro);
+}
+
+.dummy-table th {
+    background-color: var(--negro);
+    color: var(--blanco);
+    font-family: var(--fuente-primaria);
+    letter-spacing: 1px;
+}
+
+/* Etiquetas de estado */
+.status {
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.status.pending {
+    background-color: #f39c12;
+    color: white;
+}
+
+.status.completed {
+    background-color: var(--turquesa);
+    color: var(--negro);
+}

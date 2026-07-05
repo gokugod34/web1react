@@ -1,0 +1,112 @@
+/* App.css - Estructura General UI (US #3) */
+
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+  background-color: #f8f9fa; /* Fondo gris claro para el Main Area */
+  overflow-x: hidden;
+}
+
+/* --- SIDEBAR --- */
+.sidebar {
+  width: 250px;
+  background-color: #1e293b; /* Color oscuro tipo panel Admin */
+  color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease-in-out;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #334155;
+  padding-bottom: 1rem;
+}
+
+.sidebar nav ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.sidebar nav ul li a {
+  color: #cbd5e1;
+  text-decoration: none;
+  font-size: 1.1rem;
+  display: block;
+  padding: 10px;
+  border-radius: 5px;
+  transition: background 0.2s;
+}
+
+.sidebar nav ul li a:hover {
+  background-color: #334155;
+  color: white;
+}
+
+/* --- MAIN AREA --- */
+.main-area {
+  flex: 1; /* Toma todo el ancho sobrante */
+  padding: 2rem;
+  width: calc(100vw - 250px);
+}
+
+.menu-toggle {
+  display: none; /* Oculto en pantallas grandes */
+  background: #1e293b;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+}
+
+.close-sidebar {
+  display: none;
+  background: transparent;
+  color: white;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* --- RESPONSIVE: REGLA DE LOS 1024px (Según Rúbrica) --- */
+@media (max-width: 1024px) {
+  .menu-toggle {
+    display: inline-block;
+  }
+  
+  .close-sidebar {
+    display: block;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 1000;
+    /* Solapamiento (Overlap) pedido en la US#3 */
+    box-shadow: 4px 0 10px rgba(0,0,0,0.3);
+    /* Por defecto oculto fuera de la pantalla */
+    transform: translateX(-100%); 
+  }
+
+  /* Clase que React agregará cuando hagamos clic en el botón */
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .main-area {
+    width: 100vw;
+  }
+}

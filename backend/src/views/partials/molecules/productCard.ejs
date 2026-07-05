@@ -1,0 +1,9 @@
+<article class="product-card" onclick="window.location.href='/product'">
+    <div class="card-img-container">
+        <img src="<%= typeof image !== 'undefined' ? image : 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&q=80' %>" alt="<%= typeof name !== 'undefined' ? name : 'Producto' %>">
+    </div>
+    <div class="card-info">
+        <h3><%= typeof name !== 'undefined' ? name : 'Nombre del Producto' %></h3>
+        <p class="price"><%= typeof price !== 'undefined' ? price : '1500 pts' %></p>
+    </div>
+</article>

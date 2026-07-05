@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - Vimet Store</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <%- include('../partials/organisms/header') %>
+
+    <main class="cart-page-main">
+        <section class="cart-section" aria-label="Contenido del carrito">
+            <h1 class="cart-title">Tu Carrito</h1>
+            
+            <div class="cart-container">
+                <% if (products && products.length > 0) { %>
+                    <div class="cart-items-list" aria-label="Lista de productos">
+                        <% products.forEach(item => { %>
+                            <article class="cart-item">
+                                <img src="<%= item.image %>" alt="<%= item.name %>" class="cart-item-image">
+                                <div class="cart-item-details">
+                                    <h3 class="cart-item-name"><%= item.name %></h3>
+                                    <p class="cart-item-price"><%= item.price %> pts</p>
+                                </div>
+                                <div class="cart-item-quantity">
+                                    <form action="/cart/update" method="POST" style="display: inline;">
+                                        <input type="hidden" name="productId" value="<%= item.id %>">
+                                        <input type="hidden" name="action" value="decrease">
+                                        <button type="submit" class="btn-qty btn-minus" aria-label="Reducir cantidad"><i class="bi bi-dash"></i></button>
+                                    </form>
+                                    
+                                    <span class="qty-value" aria-label="Cantidad actual"><%= item.quantity %></span>
+                                    
+                                    <form action="/cart/update" method="POST" style="display: inline;">
+                                        <input type="hidden" name="productId" value="<%= item.id %>">
+                                        <input type="hidden" name="action" value="increase">
+                                        <button type="submit" class="btn-qty btn-plus" aria-label="Aumentar cantidad"><i class="bi bi-plus"></i></button>
+                                    </form>
+                                </div>
+                                <div class="cart-item-total">
+                                    <span class="item-total-price"><%= item.subtotal %> pts</span>
+                                </div>
+                            </article>
+                        <% }) %>
+
+                        <div class="cart-list-actions">
+                            <form action="/cart/clear" method="POST">
+                                <button type="submit" class="btn btn-outline btn-clear">Vaciar Carrito</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <aside class="cart-summary" aria-label="Resumen de compra">
+                        <h2>Resumen de Compra</h2>
+                        
+                        <div class="summary-totals">
+                            <div class="summary-row total-row">
+                                <span>Total:</span>
+                                <span id="cart-total"><%= total %> pts</span>
+                            </div>
+                        </div>
+
+                        <div class="cart-actions">
+                            <a href="/checkout" class="btn btn-primary btn-checkout">Ir a Pagar</a>
+                            <a href="/" class="btn btn-outline btn-continue">Volver al listado</a>
+                        </div>
+                    </aside>
+                <% } else { %>
+                    <div class="cart-empty">
+                        <i class="bi bi-cart-x"></i>
+                        <p>Tu carrito está vacío</p>
+                        <a href="/" class="btn btn-primary">Ver productos</a>
+                    </div>
+                <% } %>
+            </div>
+        </section>
+    </main>
+
+    <%- include('../partials/organisms/footer') %>
+
+    <script src="/js/main.js"></script>
+    <script src="/js/cart.js"></script>
+</body>
+</html>

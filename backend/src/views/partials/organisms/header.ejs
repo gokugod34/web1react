@@ -1,0 +1,36 @@
+<header class="main-header">
+    <div class="header-container">
+        <div class="header-left">
+            <button class="mobile-menu-btn" aria-label="Abrir menú" id="mobileMenuBtn">
+                <i class="bi bi-list"></i>
+            </button>
+            <a href="/" class="logo-link" aria-label="Ir a inicio">
+                <i class="bi bi-shop"></i> 
+                <span class="store-name">Vimet Store</span>
+            </a>
+        </div>
+        
+        <div class="search-bar">
+            <form action="/search" method="GET" style="display: flex; align-items: center; width: 100%;">
+                <input type="text" name="query" placeholder="Buscar productos..." aria-label="Buscar productos" value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>">
+                <button type="submit" aria-label="Botón de búsqueda"><i class="bi bi-search"></i></button>
+            </form>
+        </div>
+
+        <nav class="header-nav" id="headerNav">
+            <button class="close-menu-btn" aria-label="Cerrar menú" id="closeMenuBtn">
+                <i class="bi bi-x-lg"></i>
+            </button>
+            <ul style="align-items: center;">
+                <li><a href="/login" class="btn btn-outline" style="border: none; padding: 0.5rem;">Ingresar</a></li>
+                <li><a href="/register" class="btn btn-primary" style="padding: 0.5rem 1rem;">Registrarse</a></li>
+                <li class="cart-li" style="margin-left: 0.5rem;"><a href="/cart" aria-label="Carrito de compras" class="cart-icon"><i class="bi bi-cart"></i><span class="cart-badge"><%= cartTotalItems %></span></a></li>
+            </ul>
+        </nav>
+
+        <a href="/cart" aria-label="Carrito de compras" class="mobile-cart-icon">
+            <i class="bi bi-cart"></i>
+            <span class="cart-badge"><%= cartTotalItems %></span>
+        </a>
+    </div>
+</header>

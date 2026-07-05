@@ -1,0 +1,220 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+:root {
+    --fuente-primaria: "Bebas Neue", sans-serif;
+    --fuente-secundaria: "Open Sans", sans-serif;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem;
+    background-color: #eeeeee;
+    font-family: var(--fuente-primaria);
+    letter-spacing: 1px;
+}
+
+.logo {
+    width: 4rem;
+}
+
+nav ul {
+    display: flex;
+    gap: 2rem;
+}
+
+nav ul li {
+    list-style: none;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #202020;
+    font-size: 1.4rem;
+}
+
+/* Seccion Categorias Main */
+
+.categorias {
+    padding: 2rem;
+}
+
+.contenedor {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: .4rem;
+}
+
+.contenedor div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: blue;
+    background-size: cover;
+    height: 44rem;
+    width: 100%;
+    background-repeat: no-repeat;
+}
+
+.contenedor .img1 {
+    background-image: url(./images/hoodies.png);
+    transition: .4s ease-in-out;
+}
+
+.contenedor .img1:hover {
+    background-image: url(./images/pantalones.png);
+}
+
+.contenedor .img2 {
+    background-image: url(./images/remeras.png);
+}
+
+.contenedor .img3 {
+    background-image: url(./images/pantalones.png);
+}
+
+.contenedor .img4 {
+    background-image: url(./images/accesorios.png);
+}
+
+/* .contenedor .img5 {
+    background-image: url(./images/medias.png);
+} */
+
+
+.boton {
+    text-decoration: none;
+    color: white;
+    font-family: var(--fuente-primaria);
+    background-color: black;
+    padding: .8rem 2rem;
+    border: 1px solid transparent;
+    margin-top: 12rem;
+}
+
+.boton:hover {
+    border: 1px solid white;
+    transition: .4s;
+    transform: scale(1.1);
+    letter-spacing: 4px;
+}
+
+/* seccion hoodies */
+
+.hoodies {
+    padding: 2rem;
+    font-family: var(--fuente-primaria);
+}
+.imagen{
+    width: 18rem;
+  height: 24rem;
+}
+.producto{
+ display: grid;
+    grid-template-columns: repeat(4, 1fr);
+place-items: center;
+}
+h3{
+    letter-spacing: 2.5px;
+    
+}
+.card-boton{
+    text-decoration: none;
+}
+.card{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+
+
+
+/* FOOTER */
+
+footer {
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    padding: 2rem;
+    font-family: var(--fuente-primaria);
+}
+
+footer h2 {
+    color: white;
+    font-size: 2rem;
+}
+
+footer a {
+    text-decoration: none;
+    color: white;
+}
+
+footer a:hover {
+    color: rgb(223, 223, 223);
+    transition: .4s ease-in-out;
+}
+
+footer .box {
+    display: flex;
+    flex-direction: column;
+}
+
+a,
+i {
+    font-size: 1.3rem;
+}
+
+footer .flex {
+    display: flex;
+    gap: .6rem;
+}
+
+
+
+/* RESPONSIVE */
+
+@media (max-width: 1300px) {
+
+    header {
+        padding: 1rem;
+    }
+
+    .categorias {
+        padding: 1rem;
+    }
+
+    .contenedor {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+
+}
+
+@media (max-width: 750px) {
+
+    nav {
+        display: none;
+    }
+
+    .contenedor {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    footer {
+        padding: 1rem;
+        justify-content: space-between;
+    }
+
+
+}

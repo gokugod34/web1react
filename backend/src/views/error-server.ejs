@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error del Servidor - Vimet Store</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        .error-content {
+            text-align: center;
+            padding: 100px 20px;
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .error-content h1 {
+            font-size: 6rem;
+            color: #ef4444;
+            margin-bottom: 0;
+            background: linear-gradient(135deg, #ef4444, #b91c1c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .error-content h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        .error-content p {
+            font-size: 1.2rem;
+            color: #747d8c;
+            margin-bottom: 30px;
+            max-width: 500px;
+            line-height: 1.6;
+        }
+        .btn-home {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 30px;
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 4px 6px rgba(79, 70, 229, 0.15);
+        }
+        .btn-home:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+        .btn-home:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <%- include('./partials/organisms/header') %>
+    
+    <main class="error-content">
+        <h1>500</h1>
+        <h2>Error de Servidor</h2>
+        <p>Algo salió mal en nuestros servidores. Por favor, disculpá las molestias. Estamos trabajando para solucionarlo.</p>
+        <a href="/" class="btn-home">Volver al Inicio</a>
+    </main>
+
+    <%- include('./partials/organisms/footer') %>
+</body>
+</html>

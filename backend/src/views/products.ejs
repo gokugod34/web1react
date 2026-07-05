@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        .filter-section {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+        }
+        .filter-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: flex-end;
+            justify-content: center;
+        }
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .filter-group label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+        .filter-group input {
+            padding: 0.6rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-size: 0.9rem;
+            width: 140px;
+            transition: border-color 0.2s;
+        }
+        .filter-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+        .filter-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .btn-filter {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border: none;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+        .btn-filter:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+        .btn-filter:active {
+            transform: translateY(0);
+        }
+        .btn-clear-filter {
+            background-color: transparent;
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+            padding: 0.6rem 1.2rem;
+            border-radius: var(--radius-md);
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            transition: background-color 0.2s;
+        }
+        .btn-clear-filter:hover {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+        }
+        .products-grid-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+    </style>
+</head>
+<body>
+    <%- include('./partials/organisms/header') %>
+    <%- include('./partials/molecules/categoryMenu') %>
+
+    <main class="category-page-main">
+        <div class="products-grid-container">
+            <h1 style="text-align: center; margin-bottom: 1.5rem; font-size: 2.5rem;">Catálogo de Productos</h1>
+            
+            <!-- Formulario de filtros -->
+            <section class="filter-section">
+                <form action="/products" method="GET" class="filter-form">
+                    <div class="filter-group">
+                        <label for="price-min">Precio Mínimo ($)</label>
+                        <input type="number" id="price-min" name="min" placeholder="0" min="0" step="any" value="<%= min %>">
+                    </div>
+                    <div class="filter-group">
+                        <label for="price-max">Precio Máximo ($)</label>
+                        <input type="number" id="price-max" name="max" placeholder="Max" min="0" step="any" value="<%= max %>">
+                    </div>
+                    <div class="filter-group">
+                        <label for="sort">Ordenar por precio</label>
+                        <select id="sort" name="sort" style="padding: 0.6rem 1rem; border: 1px solid var(--border-color); border-radius: var(--radius-md); background-color: var(--bg-main); color: var(--text-main); font-size: 0.9rem; width: 180px;">
+                            <option value="" <%= !sort ? 'selected' : '' %>>Sin orden</option>
+                            <option value="asc" <%= sort === 'asc' ? 'selected' : '' %>>Menor a mayor</option>
+                            <option value="desc" <%= sort === 'desc' ? 'selected' : '' %>>Mayor a menor</option>
+                        </select>
+                    </div>
+                    <div class="filter-actions">
+                        <button type="submit" class="btn-filter"><i class="bi bi-funnel"></i> Filtrar</button>
+                        <% if (min || max || sort) { %>
+                            <a href="/products" class="btn-clear-filter">Limpiar</a>
+                        <% } %>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Grilla de productos -->
+            <section class="product-list-section">
+                <% if (products && products.length > 0) { %>
+                    <div class="products-grid">
+                        <% products.forEach(p => { %>
+                            <%- include('./partials/card', { producto: p }) %>
+                        <% }) %>
+                    </div>
+                <% } else { %>
+                    <div class="empty-state" style="text-align: center; padding: 4rem 1rem; background-color: var(--card-bg); border-radius: var(--radius-lg); border: 1px solid var(--border-color);">
+                        <i class="bi bi-emoji-frown" style="font-size: 3rem; color: var(--text-muted); display: block; margin-bottom: 1rem;"></i>
+                        <p style="color: var(--text-muted); font-size: 1.2rem; margin: 0;"><%= emptyMessage || 'No hay productos en ese rango de precios.' %></p>
+                    </div>
+                <% } %>
+            </section>
+        </div>
+    </main>
+
+    <%- include('./partials/molecules/categoryMenu') %>
+    <%- include('./partials/organisms/footer') %>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>
