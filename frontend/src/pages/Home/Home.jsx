@@ -1,76 +1,91 @@
-
-import React from 'react';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import './Home.css';
 
 const Home = () => {
+    const [productsCount, setProductsCount] = useState(0);
+    const [categoriesCount, setCategoriesCount] = useState(0);
+    const [loading, setLoading] = useState(true);
+
+    // Placeholder temporal para sesión real futura.
+    // const currentUser = sessionStorage.getItem('currentUser');
+    const currentUser = 'Usuario';
+
+    useEffect(() => {
+        let isMounted = true;
+
+        const fetchDashboardData = async () => {
+            try {
+                const [productsResponse, categoriesResponse] = await Promise.all([
+                    fetch('/api/products'),
+                    fetch('/api/categories')
+                ]);
+
+                const products = await productsResponse.json();
+                const categories = await categoriesResponse.json();
+
+                if (isMounted) {
+                    setProductsCount(Array.isArray(products) ? products.length : 0);
+                    setCategoriesCount(Array.isArray(categories) ? categories.length : 0);
+                }
+            } catch (error) {
+                console.error('Error al cargar datos del dashboard:', error);
+
+                if (isMounted) {
+                    setProductsCount(0);
+                    setCategoriesCount(0);
+                }
+            } finally {
+                if (isMounted) {
+                    setLoading(false);
+                }
+            }
+        };
+
+        fetchDashboardData();
+
+        return () => {
+            isMounted = false;
+        };
+    }, []);
+
     return (
-        <div className="home-dashboard">
-            <h2 style={{ fontFamily: 'var(--fuente-primaria)', fontSize: '2.5rem', letterSpacing: '2px' }}>
-                Resumen de Vimet
-            </h2>
-            <hr style={{ marginBottom: '2rem', borderColor: 'var(--turquesa)' }} />
+        <section className="home-dashboard">
+            <header className="home-header">
+                <div>
+                    <p className="home-eyebrow">Panel principal</p>
+                    <h1 className="home-title">¡Hola {currentUser}!</h1>
+                </div>
+            </header>
 
-            {/* Tarjetas de Métricas Falsas (Dummy Data) */}
-            <div className="dashboard-cards">
-                <div className="stat-card">
-                    <h3>Ventas del Mes</h3>
-                    <p className="stat-value">$ 450.000</p>
-                    <span className="stat-badge success">+15% vs mes anterior</span>
-                </div>
-                <div className="stat-card">
-                    <h3>Pedidos Activos</h3>
-                    <p className="stat-value">24</p>
-                    <span className="stat-badge neutral">Listos para despachar</span>
-                </div>
-                <div className="stat-card">
-                    <h3>Alertas de Stock</h3>
-                    <p className="stat-value alerta">3</p>
-                    <span className="stat-badge danger">Prendas por agotarse</span>
-                </div>
-            </div>
+            {loading ? (
+                <p className="home-loading">Cargando…</p>
+            ) : (
+                <div className="dashboard-grid">
+                    <article className="summary-card">
+                        <div className="summary-card__content">
+                            <p className="summary-label">Productos</p>
+                            <h2 className="summary-value">{productsCount}</h2>
+                            <div className="summary-actions">
+                                <Link className="summary-button" to="/products">Ver Listado</Link>
+                                <Link className="summary-button" to="/products/new">Agregar Producto</Link>
+                            </div>
+                        </div>
+                    </article>
 
-            {/* Tabla de Últimos Movimientos Falsos */}
-            <div className="recent-orders">
-                <h3 style={{ fontFamily: 'var(--fuente-primaria)', fontSize: '1.8rem', marginBottom: '1rem' }}>
-                    Últimos Pedidos (Datos de Prueba)
-                </h3>
-                <div className="table-container">
-                    <table className="dummy-table">
-                        <thead>
-                            <tr>
-                                <th>ID Pedido</th>
-                                <th>Cliente</th>
-                                <th>Fecha</th>
-                                <th>Monto</th>
-                                <th>Estado</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>#VIM-00101</td>
-                                <td>Martina Moneo</td>
-                                <td>02/07/2026</td>
-                                <td>$ 35.000</td>
-                                <td><span className="status pending">Pendiente</span></td>
-                            </tr>
-                            <tr>
-                                <td>#VIM-00100</td>
-                                <td>Marcos Gonzales</td>
-                                <td>01/07/2026</td>
-                                <td>$ 12.000</td>
-                                <td><span className="status completed">Enviado</span></td>
-                            </tr>
-                            <tr>
-                                <td>#VIM-00099</td>
-                                <td>Conrado Sánchez</td>
-                                <td>28/06/2026</td>
-                                <td>$ 25.000</td>
-                                <td><span className="status completed">Enviado</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <article className="summary-card">
+                        <div className="summary-card__content">
+                            <p className="summary-label">Categorías</p>
+                            <h2 className="summary-value">{categoriesCount}</h2>
+                            <div className="summary-actions">
+                                <Link className="summary-button" to="/categories">Ver Listado</Link>
+                                <Link className="summary-button" to="/categories/new">Agregar Categoría</Link>
+                            </div>
+                        </div>
+                    </article>
                 </div>
-            </div>
-        </div>
+            )}
+        </section>
     );
 };
 
