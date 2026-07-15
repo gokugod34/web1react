@@ -1,0 +1,96 @@
+.home-dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    min-height: 100%;
+}
+
+.home-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--turquesa);
+}
+
+.home-eyebrow {
+    color: var(--turquesa-oscuro);
+    font-family: var(--fuente-primaria);
+    font-size: 1.25rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.home-title {
+    font-family: var(--fuente-primaria);
+    font-size: 3rem;
+    letter-spacing: 2px;
+    color: var(--negro);
+}
+
+.home-loading {
+    font-family: var(--fuente-secundaria);
+    color: var(--gris-oscuro);
+    font-size: 1.1rem;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+}
+
+.summary-card {
+    background: linear-gradient(135deg, var(--blanco), var(--gris-claro));
+    border: 1px solid rgba(0, 203, 214, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+    min-height: 220px;
+}
+
+.summary-card__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1rem;
+    height: 100%;
+    padding: 1.5rem;
+}
+
+.summary-label {
+    font-family: var(--fuente-primaria);
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+    color: var(--gris-oscuro);
+    text-transform: uppercase;
+}
+
+.summary-value {
+    font-family: var(--fuente-primaria);
+    font-size: 4rem;
+    color: var(--turquesa-oscuro);
+    line-height: 1;
+}
+
+.summary-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.summary-button {
+    text-decoration: none;
+    color: var(--blanco);
+    background: var(--negro);
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-family: var(--fuente-primaria);
+    letter-spacing: 1px;
+    transition: 0.25s ease;
+}
+
+.summary-button:hover {
+    background: var(--turquesa);
+    color: var(--negro);
+}

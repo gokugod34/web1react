@@ -1,8 +1,10 @@
 const express = require('express');
 const path = require('path');
+const cors = require('cors');
 const session = require('express-session');
 const userController = require('./controllers/userController');
 const cartController = require('./controllers/cartController');
+const apiRoutes = require('./routes/api');
 const app = express();
 const port = 3000;
 
@@ -16,6 +18,11 @@ app.use(express.static('public'));
 // Configurar captura de datos de formularios (req.body)
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(cors({
+    origin: ['http://localhost:5173']
+}));
+
+app.use('/api', apiRoutes);
 
 // Configurar sesiones
 app.use(session({
