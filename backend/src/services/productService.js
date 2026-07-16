@@ -18,6 +18,24 @@ module.exports = {
         return stmt.get(id);
     },
 
+    create: (data = {}) => {
+        const payload = data || {};
+        const name = typeof payload.name === 'string' ? payload.name.trim() : '';
+        const description = typeof payload.description === 'string' ? payload.description : '';
+        const price = Number(payload.price);
+        const image = typeof payload.image === 'string' ? payload.image.trim() : '';
+        const stock = Number(payload.stock);
+        const categoryId = payload.category_id ?? null;
+
+        const stmt = db.prepare(`
+            INSERT INTO products (name, description, price, image, stock, category_id)
+            VALUES (?, ?, ?, ?, ?, ?)
+        `);
+
+        const result = stmt.run(name, description, price, image, stock, categoryId);
+        return module.exports.findById(result.lastInsertRowid);
+    },
+
     update: (id, data = {}) => {
         const payload = data || {};
         const name = typeof payload.name === 'string' ? payload.name.trim() : '';

@@ -31,10 +31,11 @@ const clampStock = (value) => Math.min(STOCK_MAX, Math.max(STOCK_MIN, value));
 export default function ProductView() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const isNew = !id;
 
   const [product, setProduct] = useState(null);
   const [formData, setFormData] = useState(buildFormState());
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!isNew);
   const [error, setError] = useState('');
   const [submitError, setSubmitError] = useState('');
 
@@ -73,7 +74,7 @@ export default function ProductView() {
   };
 
   const handleCancel = () => {
-    setFormData(buildFormState(product));
+    setFormData(buildFormState(isNew ? null : product));
     setSubmitError('');
   };
 
@@ -118,8 +119,9 @@ export default function ProductView() {
     try {
       setSubmitError('');
 
-      const response = await fetch(`/api/products/${id}/edit`, {
-        method: 'PUT',
+      const url = isNew ? '/api/products/new' : `/api/products/${id}/edit`;
+      const response = await fetch(url, {
+        method: isNew ? 'POST' : 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -137,9 +139,15 @@ export default function ProductView() {
         throw new Error(payload.error || 'No se pudo guardar el producto');
       }
 
-      const updatedProduct = await response.json();
-      setProduct(updatedProduct);
-      setFormData(buildFormState(updatedProduct));
+      const savedProduct = await response.json();
+
+      if (isNew) {
+        navigate(`/products/${savedProduct.id}`);
+        return;
+      }
+
+      setProduct(savedProduct);
+      setFormData(buildFormState(savedProduct));
     } catch (err) {
       setSubmitError(err.message || 'No se pudo guardar el producto');
     }
@@ -173,46 +181,50 @@ export default function ProductView() {
   return (
     <section className="product-view-page">
       <header className="product-view-header">
-        <h1 className="product-view-title">Productos &gt; #{id}</h1>
-        <button className="product-view-delete-button" type="button" onClick={handleDelete}>
-          Eliminar
-        </button>
+        <h1 className="product-view-title">{isNew ? 'Productos > Nuevo Producto' : `Productos > #${id}`}</h1>
+        {isNew ? null : (
+          <button className="product-view-delete-button" type="button" onClick={handleDelete}>
+            Eliminar
+          </button>
+        )}
       </header>
 
       <div className="product-view-grid">
-        <article className="product-view-card">
-          <h2>Resumen</h2>
+        {isNew ? null : (
+          <article className="product-view-card">
+            <h2>Resumen</h2>
 
-          <div className="product-view-meta">
-            <div className="product-view-meta-item">
-              <span className="product-view-meta-label">Nombre</span>
-              <span className="product-view-meta-value">{product?.name}</span>
+            <div className="product-view-meta">
+              <div className="product-view-meta-item">
+                <span className="product-view-meta-label">Nombre</span>
+                <span className="product-view-meta-value">{product?.name}</span>
+              </div>
+              <div className="product-view-meta-item">
+                <span className="product-view-meta-label">Identificador</span>
+                <span className="product-view-meta-value">#{product?.id}</span>
+              </div>
+              <div className="product-view-meta-item">
+                <span className="product-view-meta-label">Stock</span>
+                <span className="product-view-meta-value">{product?.stock}</span>
+              </div>
+              <div className="product-view-meta-item">
+                <span className="product-view-meta-label">Precio</span>
+                <span className="product-view-meta-value">${Number(product?.price ?? 0).toLocaleString('es-AR')}</span>
+              </div>
+              <div className="product-view-meta-item">
+                <span className="product-view-meta-label">Categoría / Tienda</span>
+                <span className="product-view-meta-value">{product?.category || 'Sin categoría'}</span>
+              </div>
             </div>
-            <div className="product-view-meta-item">
-              <span className="product-view-meta-label">Identificador</span>
-              <span className="product-view-meta-value">#{product?.id}</span>
-            </div>
-            <div className="product-view-meta-item">
-              <span className="product-view-meta-label">Stock</span>
-              <span className="product-view-meta-value">{product?.stock}</span>
-            </div>
-            <div className="product-view-meta-item">
-              <span className="product-view-meta-label">Precio</span>
-              <span className="product-view-meta-value">${Number(product?.price ?? 0).toLocaleString('es-AR')}</span>
-            </div>
-            <div className="product-view-meta-item">
-              <span className="product-view-meta-label">Categoría / Tienda</span>
-              <span className="product-view-meta-value">{product?.category || 'Sin categoría'}</span>
-            </div>
-          </div>
 
-          {product?.image ? (
-            <img className="product-view-image" src={product.image} alt={product.name} />
-          ) : null}
-        </article>
+            {product?.image ? (
+              <img className="product-view-image" src={product.image} alt={product.name} />
+            ) : null}
+          </article>
+        )}
 
         <section className="product-view-form">
-          <h2>Editar producto</h2>
+          <h2>{isNew ? 'Nuevo producto' : 'Editar producto'}</h2>
 
           <div className="product-view-field">
             <label htmlFor="product-name">Nombre</label>

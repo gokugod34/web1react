@@ -25,6 +25,33 @@ const apiController = {
         return res.json(product);
     },
 
+    createProduct: (req, res) => {
+        const body = req.body || {};
+        const name = typeof body.name === 'string' ? body.name.trim() : '';
+        const description = typeof body.description === 'string' ? body.description : '';
+        const price = toNumberOrDefault(body.price, 0);
+        const stock = toNumberOrDefault(body.stock, 0);
+        const image = typeof body.image === 'string' ? body.image.trim() : '';
+
+        if (!name) {
+            return res.status(400).json({ error: 'El nombre es requerido' });
+        }
+
+        if (!Number.isInteger(price) || !Number.isInteger(stock)) {
+            return res.status(400).json({ error: 'El precio y el stock deben ser números enteros' });
+        }
+
+        const newProduct = productService.create({
+            name,
+            description,
+            price,
+            image,
+            stock
+        });
+
+        return res.status(201).json(newProduct);
+    },
+
     updateProduct: (req, res) => {
         const productId = req.params.id;
         const existingProduct = productService.findById(productId);

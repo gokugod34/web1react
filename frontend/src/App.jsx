@@ -6,7 +6,6 @@ import ProductView from './pages/Products/ProductView/ProductView.jsx';
 import './App.css'; // Importamos la estructura de la US#3
 
 // Componentes Dummys para las rutas
-const ProductNew = () => <div><h2>➕ Agregar Nuevo Producto</h2></div>;
 const CategoriesList = () => <div><h2>🏪 Categorías</h2></div>;
 const CategoryNew = () => <div><h2>➕ Agregar Nueva Categoría</h2></div>;
 const UsersList = () => <div><h2>👥 Usuarios</h2></div>;
@@ -56,7 +55,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/products" element={<ProductsList />} />
-              <Route path="/products/new" element={<ProductNew />} />
+              <Route path="/products/new" element={<ProductView />} />
               <Route path="/products/:id" element={<ProductView />} />
               <Route path="/categories" element={<CategoriesList />} />
               <Route path="/categories/new" element={<CategoryNew />} />
