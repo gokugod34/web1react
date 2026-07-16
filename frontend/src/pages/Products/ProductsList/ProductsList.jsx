@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ProductsList.css';
 
@@ -7,7 +7,7 @@ export default function ProductsList() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [search, setSearch] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const loadProducts = async () => {
@@ -33,6 +33,24 @@ export default function ProductsList() {
     loadProducts();
   }, []);
 
+  const filteredProducts = useMemo(() => {
+    const normalizedTerm = searchTerm.trim().toLowerCase();
+
+    if (!normalizedTerm) {
+      return products;
+    }
+
+    return products.filter((product) => {
+      // Bonus opcional: se puede extender la búsqueda a categoría o descripción.
+      const queryableText = [product.name, product.description, product.category]
+        .filter(Boolean)
+        .join(' ')
+        .toLowerCase();
+
+      return queryableText.includes(normalizedTerm);
+    });
+  }, [products, searchTerm]);
+
   return (
     <section className="products-page">
       <header className="products-header">
@@ -43,8 +61,8 @@ export default function ProductsList() {
             className="products-search"
             type="search"
             placeholder="Buscar producto"
-            value={search}
-            onChange={(event) => setSearch(event.target.value)}
+            value={searchTerm}
+            onChange={(event) => setSearchTerm(event.target.value)}
             aria-label="Buscar producto"
           />
 
@@ -62,9 +80,11 @@ export default function ProductsList() {
         <p className="products-status">Cargando…</p>
       ) : error ? (
         <p className="products-status products-status--error">{error}</p>
+      ) : filteredProducts.length === 0 ? (
+        <p className="products-status">No se encontraron productos que coincidan con la búsqueda.</p>
       ) : (
         <div className="products-grid">
-          {products.map((product) => (
+          {filteredProducts.map((product) => (
             <article
               key={product.id}
               className="product-card"
