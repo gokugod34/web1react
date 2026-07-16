@@ -1,0 +1,224 @@
+.product-view-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.product-view-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--turquesa);
+}
+
+.product-view-title {
+  font-family: var(--fuente-primaria);
+  font-size: 2.5rem;
+  letter-spacing: 1px;
+  color: var(--negro);
+}
+
+.product-view-delete-button {
+  border: none;
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  background: var(--negro);
+  color: var(--blanco);
+  font-family: var(--fuente-primaria);
+  cursor: pointer;
+}
+
+.product-view-delete-button:hover {
+  background: var(--turquesa);
+  color: var(--negro);
+}
+
+.product-view-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1.4fr;
+  gap: 1.5rem;
+}
+
+.product-view-card,
+.product-view-form {
+  background: var(--blanco);
+  border: 1px solid var(--gris-claro);
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+}
+
+.product-view-card h2,
+.product-view-form h2 {
+  font-family: var(--fuente-primaria);
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.product-view-meta {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.product-view-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.product-view-meta-label {
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--gris-oscuro);
+}
+
+.product-view-meta-value {
+  color: var(--negro);
+  font-size: 1rem;
+}
+
+.product-view-image {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-top: 1rem;
+  border: 1px solid var(--gris-claro);
+}
+
+.product-view-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.product-view-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.product-view-field label {
+  font-family: var(--fuente-secundaria);
+  font-weight: 700;
+  color: var(--gris-oscuro);
+}
+
+.product-view-field input,
+.product-view-field textarea {
+  width: 100%;
+  border: 1px solid var(--gris-claro);
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  font-family: var(--fuente-secundaria);
+}
+
+.product-view-field textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.product-view-input-number {
+  -moz-appearance: textfield;
+}
+
+.product-view-input-number::-webkit-outer-spin-button,
+.product-view-input-number::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.product-view-stock-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.product-view-stock-row input {
+  flex: 1;
+}
+
+.product-view-stock-control {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.product-view-field .product-view-stock-input {
+  width: 90px;
+}
+
+.product-view-stepper {
+  display: inline-flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+
+.product-view-stepper button {
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: 8px;
+  background: var(--gris-claro);
+  color: var(--negro);
+  cursor: pointer;
+  font-size: 1.15rem;
+}
+
+.product-view-stepper button:hover {
+  background: var(--turquesa);
+}
+
+.product-view-stepper button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.product-view-stepper button:disabled:hover {
+  background: var(--gris-claro);
+}
+
+.product-view-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.product-view-button {
+  border: none;
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  background: var(--negro);
+  color: var(--blanco);
+  font-family: var(--fuente-primaria);
+  cursor: pointer;
+}
+
+.product-view-button:hover {
+  background: var(--turquesa);
+  color: var(--negro);
+}
+
+.product-view-button--secondary {
+  background: var(--gris-claro);
+  color: var(--negro);
+}
+
+.product-view-button--secondary:hover {
+  background: var(--turquesa);
+}
+
+.product-view-error {
+  color: #b42318;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 900px) {
+  .product-view-grid {
+    grid-template-columns: 1fr;
+  }
+}
