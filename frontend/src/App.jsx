@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import Home from './pages/Home/Home.jsx';
 import ProductsList from './pages/Products/ProductsList/ProductsList.jsx';
+import ProductView from './pages/Products/ProductView/ProductView.jsx';
 import './App.css'; // Importamos la estructura de la US#3
 
 // Componentes Dummys para las rutas
-const ProductView = () => <div><h2>👁️ Detalle del Producto</h2></div>;
 const ProductNew = () => <div><h2>➕ Agregar Nuevo Producto</h2></div>;
 const CategoriesList = () => <div><h2>🏪 Categorías</h2></div>;
 const CategoryNew = () => <div><h2>➕ Agregar Nueva Categoría</h2></div>;

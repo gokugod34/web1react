@@ -18,6 +18,29 @@ module.exports = {
         return stmt.get(id);
     },
 
+    update: (id, data = {}) => {
+        const payload = data || {};
+        const name = typeof payload.name === 'string' ? payload.name.trim() : '';
+        const description = typeof payload.description === 'string' ? payload.description : '';
+        const price = Number(payload.price);
+        const image = typeof payload.image === 'string' ? payload.image.trim() : '';
+        const stock = Number(payload.stock);
+
+        const stmt = db.prepare(`
+            UPDATE products
+            SET name = ?, description = ?, price = ?, image = ?, stock = ?
+            WHERE id = ?
+        `);
+
+        stmt.run(name, description, price, image, stock, id);
+        return module.exports.findById(id);
+    },
+
+    remove: (id) => {
+        const stmt = db.prepare('DELETE FROM products WHERE id = ?');
+        return stmt.run(id);
+    },
+
     findByCategory: (category) => {
         if (!category) return [];
         const stmt = db.prepare(SELECT_PRODUCT_BASE + ` WHERE lower(c.name) = lower(?) ORDER BY p.id`);
