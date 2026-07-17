@@ -1,0 +1,541 @@
+# Mi Ecommerce Sprint 1
+
+<aside>
+✅ **¿Qué necesitas saber?**
+
+Para poder completar este sprint debes haber pasado por [Primeros Pasos](https://www.notion.so/Primeros-Pasos-3212f5d5636480bb9485d3dd9b7bfbea?pvs=21).
+
+</aside>
+
+<aside>
+🎯 **Objetivos**
+
+Generar el esqueleto y la estructura básica de nuestra aplicación basándonos en la propuesta de diseño que se nos eleva.
+
+</aside>
+
+<aside>
+🔧 Para completar este Sprint, sólo necesitas contar con una computadora y conexión a internet.
+
+</aside>
+
+<aside>
+🚨
+
+**Pautas**
+
+Los criterios que se tendrán en cuenta al analizar los resultados del Sprint son los siguientes:
+
+💪 Debe existir el progreso individual, es decir, esperamos que cada persona del equipo de desarrollo produzca una parte del proyecto.
+
+🤝 Debe existir trabajo colaborativo. Esperamos que apliquen las metodologías aprendidas para fortalecer el avance conjunto y la división de trabajo.
+
+✅ Revisaremos que hagas un uso semántico correcto de las etiquetas HTML
+
+🎖️El producto obtenido al final del Sprint debe cumplir con los requisitos funcionales que se piden.
+
+</aside>
+
+<aside>
+🗒️ **Nota importante**
+Podes trabajar de forma individual o grupal. Pero en cualquier caso la entrega será personal. Si hay alguna tarea o concepto mencionado que no conoces o no entiendes, es necesario que lo informes cuanto antes para poder obtener asistencia.
+
+</aside>
+
+<aside>
+📦 **Entregable**
+Se espera la entrega de un repositorio Git con el código producido. Se valorará el trabajo en ramas.
+
+</aside>
+
+---
+
+A medida que aprendemos las bases del desarrollo web con Express, implementaremos un ejercicio cuasi real: una plataforma de ecommerce. Cada paso que demos en Express va a empujar un pedacito más de nuestro *ecommerce*: cada práctico funciona como un sprint, con un objetivo concreto y una entrega clara, igual que en un proyecto real. 
+
+Antes de meternos en el primer sprint, vale presentar el *ecommerce* que vamos a construir: una tienda ficticia, simple pero completa, que nos permita practicar todo lo que una app real necesita. No importa si vende remeras, libros o figuritas; lo importante es que tenga productos, usuarios, carritos, pedidos y un flujo lógico que podamos ir armando paso a paso. 
+
+# Requerimientos del Sprint
+
+El *Equipo de Diseño UI/UX* está encargado de diseñar el nuevo e-commerce de la empresa que busca mejorar la experiencia actual de sus clientes para adquirir productos y servicios de forma más simple, rápida y amigable.
+
+En ese sentido, usando *Design Thinking*, luego de un gran trabajo de *investigación* y análisis de datos y comportamiento, llegaron a un prototipo del nuevo e-commerce que podemos ver en el siguiente link:
+
+https://embed.figma.com/design/455EeCKv63gxE5NjDqmjU0/MiEcommerceDesktop?node-id=0-1&embed-host=share&embed-host=notion&footer=false&theme=system
+
+https://www.figma.com/proto/455EeCKv63gxE5NjDqmjU0/MiEcommerceDesktop?node-id=0-1&t=yoSaWq0wuFp39jLX-1
+
+![image.png](attachment:5c7fd410-8c9b-41d9-a3cb-a981764d1325:image.png)
+
+Junto con el prototipo, el Equipo de Diseño UI/UX *nos compartió una carpeta con toda la información* para poder aplicar el diseño con código HTML y CSS.
+
+[MiEcommerce - Google Drive](https://drive.google.com/drive/folders/1xs87FmH64hSGP1h6icJUWar2zIfuNOWq?usp=sharing)
+
+Como parte del *Equipo de Desarrollo*, se nos pide implementar estos prototipos para obtener una interfaz funcional para poder realizar las primeras pruebas con un prototipo evolutivo de alta fidelidad.
+
+Con esta idea en mente, dividiremos nuestro trabajo en pequeños pasos dentro de este primer Sprint para poder mostrar la interfaz funcionando en pocos días:
+
+1️⃣  Crear una App con NodeJS y ExpressJS para poder alojar y servir el contenido Web.
+
+2️⃣  Diseñar la estructura HTML de cada pantalla (*vista*)
+
+3️⃣  Aplicar los estilos CSS necesarios para que nuestra app luzca tal como la diseñó el *Equipo de UI/UX*.
+
+4️⃣  Permitir que cada vista sea accesible desde una URL especial.
+
+Para dar cumplimiento a estas tareas y lograr el objetivo del primer sprint sin perder de vista nuestro enfoque en las personas usuarias, vamos a trabajar con ***User Stories*** que podríamos mapear con esta lista de pasos.
+
+<aside>
+⚠️
+
+Es importante que, cada persona en conjunto con su equipo, estime el tiempo de trabajo requerido en cada User Story para poder evaluar, durante el ciclo de trabajo y al finalizar el Sprint, cómo fue la estimación.
+
+</aside>
+
+## User Story #1
+
+<aside>
+🤝
+
+Es recomendable trabajar esta story de forma colaborativa, usando las rutas como subtareas o pasos necesarios para completarla.
+
+</aside>
+
+***Código:** #main-s1-us1*
+
+***Nombre:** Generar estructura del Proyecto*
+
+### **Detalle**
+
+Como líder del Equipo de Desarrollo, quiero que organicemos nuestra app usando la estructura de directorios que adjunto abajo, de esta forma podremos dividir mejor el trabajo.
+
+- Estructura propuesta
+    
+    📁 **views**
+    
+    📁 **partials** (carpeta para elementos y componentes)
+    
+    📄 header.ejs (encabezado del sitio)
+    
+    📄 footer.ejs (pie del sitio)
+    
+    📄 productCard.ejs (barra lateral)
+    
+    ...
+    
+    📁 **pages**
+    
+    📄 index.ejs (home/landing del ecommerce)
+    
+    📄 login.ejs (inicio de sesión)
+    
+    📄 register.ejs (registro de users)
+    
+    📄 product.ejs (página de un producto)
+    
+    📄 cart.ejs (página del carrito)
+    
+    📄 checkout.ejs (página de pago)
+    
+    ...
+    
+    📁 **assets**
+    
+    ⚙️ package.json
+    
+    ⏯️ app.js (archivo principal de la app)
+    
+
+<aside>
+✨
+
+***¡BONUS!*** Si estamos bien de tiempo, y el proyecto avanza satisfactoriamente, es una buena idea aplicar diseño atómico a los elementos parciales, de manera que se pueda construir e importar partes del sitio que se utilizarán en más de un lugar (por ejemplo, los inputs, los botones o el encabezado). En este caso, la carpeta 📁partials estará bastante poblada.
+
+</aside>
+
+A continuación, tenemos un ejemplo de diseño atómico.
+
+![image.png](attachment:14c53137-0a01-4c1e-a314-86646a54d75e:image.png)
+
+🔗 Más info sobre diseño atómico [en este post](https://medium.com/pixel-perfect/qu%C3%A9-es-el-dise%C3%B1o-at%C3%B3mico-a5cbed06688e).
+
+## User Story #2
+
+<aside>
+🤝
+
+Es recomendable trabajar esta story de forma colaborativa, usando las rutas como subtareas o pasos necesarios para completarla.
+
+</aside>
+
+***Código:** #main-s1-us2*
+
+***Nombre:** Definir Rutas*
+
+### **Detalle**
+
+Como líder del Equipo de Desarrollo, quiero que definamos rutas en nuestra app para que cada vista pueda ser accedida desde una dirección amigable en el navegador. Propongo la siguiente estructura de *routes*.
+
+| **`/`** | 🏠 Página de Inicio (index.ejs) |
+| --- | --- |
+| **`/products`** | 📦 Página de un producto en particular (product.ejs) |
+| **`/cart`** | 🛒 Página del carrito (cart.ejs) |
+| **`/checkout`** | 💵 Página de pago (checkout.ejs) |
+| **`/register`** | ➕ Página de registro para *new users* (register.ejs) |
+| **`/login**`  | 🔑 Página de inicio de sesión (login.ejs) |
+
+### **Validación**
+
+- Verificar que cuando la persona usuaria accede a la raíz del sitio miecommerce.com/ consigue ***ver la página de inicio***.
+- Verificar que cuando la persona usuaria accede a miecommerce.com/products consigue **ver la página de información de los productos**
+- Verificar que cuando la persona usuaria accede a miecommerce.com/cart consigue **ver la página del carrito**.
+- Verificar que cuando la persona usuaria accede a miecommerce.com/checkout consigue **ver la página de pago de su orden de compra**.
+- Verificar que cuando la persona usuaria accede a miecommerce.com/login consigue **ver la página de inicio de sesión**.
+- Verificar que cuando la persona usuaria accede a miecommerce.com/register consigue **ver la página para poder registrarse**.
+
+## User Story #3
+
+<aside>
+👤
+
+Es recomendable trabajar esta story de forma individual. Puede ser asignada a una persona del equipo.
+
+</aside>
+
+***Código:** #main-s1-us3*
+
+***Nombre:** Construir página de registro*
+
+### **Detalle**
+
+Como líder del Equipo de Diseño, quiero que la app disponga de una pantalla de *registro* para permitir que las personas se registren. Esta pantalla será accesible desde /register.
+
+![image.png](attachment:27f2fd03-4160-4e4d-b549-03b1dd8c7ca2:image.png)
+
+### **Escenarios**
+
+- Dado que la persona usuaria debe identificarse para usar la tienda y aún no ha iniciado sesión, cuando llega a la página de registro, y no posee credenciales, debe completar un formulario con su nombre, su email y su contraseña; luego debe poder hacer click en un botón con la leyenda “Registrarse” para iniciar el proceso de registro.
+
+<aside>
+✨
+
+***¡BONUS!*** Dado que la persona usuaria ha llegado a la página de registro, y ya está registrada, debe poder clickear en un enlace que la lleve a la página /login.
+
+</aside>
+
+### **Validación**
+
+- La página tiene un input de texto para ingresar el nombre de la persona.
+- La página tiene un input de email para ingresar el email de la persona (o nombre de usuario).
+- La página tiene un input de tipo contraseña para ingresar la contraseña.
+- La página tiene un botón para iniciar el proceso de registro.
+- La página tiene un enlace para dirigir la navegación hacia la página de login.
+- La página tiene un enlace para dirigir la navegación hacia la página de inicio.
+- Se hace uso correcto de las etiquetas HTML y las opciones de accesibilidad.
+- Se respetan las buenas prácticas de usabilidad.
+
+## User Story #4
+
+<aside>
+👤
+
+Es recomendable trabajar esta story de forma individual. Puede ser asignada a una persona del equipo.
+
+</aside>
+
+***Código:** #main-s1-us4*
+
+***Nombre:** Construir página de login*
+
+### **Detalle**
+
+Como líder del Equipo de Diseño, quiero que la app disponga de una pantalla de *login* para permitir que las personas se identifiquen e inicien sesión. Esta pantalla será accesible desde /login.
+
+![image.png](attachment:bcf8bd51-1048-450d-8277-ff2adc538551:image.png)
+
+### **Escenarios**
+
+- Dado que la persona usuaria debe identificarse para usar la tienda y aún no ha iniciado sesión, cuando llega a la página de login, debe poder ingresar su usuario y su contraseña en un formulario y luego hacer click en un botón con el texto ‘Iniciar Sesión’ y ser redirigida a la página de inicio.
+- Dado que la persona usuaria debe identificarse para usar la tienda y aún no ha iniciado sesión, cuando llega a la página de login, y no posee credenciales debe poder dirigirse a la página /register.
+
+### **Validación**
+
+- La página tiene un input de texto para ingresar nombre de usuario.
+- La página tiene un input de tipo contraseña para ingresar la contraseña.
+- La página tiene un botón para iniciar el proceso de inicio de sesión.
+- La página tiene un enlace para dirigir la navegación hacia la página de registro.
+- La página tiene un enlace para dirigir la navegación hacia la página de inicio.
+- Se hace uso correcto de las etiquetas HTML y las opciones de accesibilidad.
+- Se respetan las buenas prácticas de usabilidad.
+
+## User Story #5
+
+<aside>
+👤
+
+Es recomendable trabajar esta story de forma individual. Puede ser asignada a una persona del equipo.
+
+</aside>
+
+<aside>
+⚠️
+
+Esta story requiere mayor esfuerzo que otras.
+
+</aside>
+
+***Código:** #main-s1-us5*
+
+***Nombre:** Construir página de inicio*
+
+### **Detalle**
+
+Como líder del Equipo de Diseño, quiero que la app disponga de una pantalla de *Inicio* para permitir que las personas aterricen en la app. Esta pantalla será accesible desde / y será la pantalla principal.
+
+![image.png](attachment:ca7446f6-6484-419a-b20e-bec798eab6fe:image.png)
+
+![image.png](attachment:db9b93b2-2485-4bf3-83d8-f265c95a0f20:image.png)
+
+### **Escenarios**
+
+- Dado que la persona usuaria llega a esta página y queremos que adquiera nuestros productos y servicios, debe poder ver un listado de productos/servicios con una imagen, un nombre y un precio expresado en puntos.
+    
+    ![image.png](attachment:736bb884-2aac-46cc-b3f4-bf125fc6cca9:image.png)
+    
+- Dado que la persona usuaria está observando un producto y desea obtener más información, cuando hace clickea sobre el producto será redirigida a la página del producto.
+
+<aside>
+✨
+
+***¡BONUS!*** Dado que la persona usuaria llega a esta página y queremos que conozca los beneficios, debe poder ver un listado destacado con 2 opciones llamadas ProductHero que deben sobresalir por su imagen de fondo.
+
+![image.png](attachment:fb1dc7be-e703-4e48-9738-7c15570eb5c7:image.png)
+
+</aside>
+
+<aside>
+✨
+
+***¡BONUS!*** Dado que la persona usuaria llega a esta página y queremos que pueda elegir entre distintas categorías de productos, debe poder ver un listado de categorías con 8 opciones: Electrónica, Alimentos, Bebidas, Indumentaria, Juegos, Automotor, Hogar y Otros. Este listado se repite al inicio y al final de la página.
+
+![image.png](attachment:f58d8dcb-1470-4ee2-84a1-b7a75f250f08:image.png)
+
+</aside>
+
+### **Validación**
+
+- La página tiene un encabezado con el logo de la empresa, un buscador y el nombre de la tienda.
+- La página tiene bloque con las opciones *Categoría 1*, *Categoría 2* y *Categoría 3*.
+- La página tiene un listado de productos que pueden ser clickeados navegar a la vista de ese producto.
+- Se hace uso correcto de las etiquetas HTML y las opciones de accesibilidad.
+- Se respetan las buenas prácticas de usabilidad.
+
+## User Story #6
+
+<aside>
+👤
+
+Es recomendable trabajar esta story de forma individual. Puede ser asignada a una persona del equipo.
+
+</aside>
+
+<aside>
+⚠️
+
+Esta story requiere mayor esfuerzo que otras.
+
+</aside>
+
+***Código:** #main-s1-us6*
+
+***Nombre:** Construir página de producto*
+
+### **Detalle**
+
+Como líder del Equipo de Diseño, quiero que la app disponga de una pantalla de *Detalles del Producto/Servicio* para permitir que las personas puedan ver información del producto/servicio que van a adquirir. Esta pantalla será accesible desde /product.
+
+![image.png](attachment:49d3fc54-4385-4ea2-abba-876498c4eba4:image.png)
+
+### **Escenarios**
+
+- Dado que la persona usuaria llega a esta página y quiere conocer los detalles del producto/servicio, y el producto existe, debe poder ver:
+    - el nombre del producto de manera destacada (título),
+    - una o más imágenes,
+    - una descripción y
+    - un precio expresado en *Puntos*.
+
+<aside>
+✨
+
+***¡BONUS!*** Dado que la persona usuaria llega a esta página a través de un enlace (por ejemplo /product/1234) y el producto no existe, queremos explicarle que puede haber un error. Debe poder ver una página de error.
+
+</aside>
+
+<aside>
+✨
+
+***¡BONUS!*** Dado que la persona usuaria llega a esta página a través de un enlace (por ejemplo /product/1234) y el producto no existe y está observando una página de error, debe poder ver un listado de productos sugeridos para que no decida irse del sitio. Los productos deben ser aleatorios. La lista de productos debe ser similar a la vista de la página de inicio.
+
+</aside>
+
+<aside>
+✨
+
+***¡BONUS!*** Dado que la persona usuaria está observando un producto y queremos que pueda conocer productos relacionados, debe poder ver un listado de productos que compartan detalles similares con el producto seleccionado (por ejemplo, categoría o nombre). La lista de productos debe ser similar a la vista de la página de inicio.
+
+</aside>
+
+<aside>
+✨
+
+***¡BONUS!*** Dado que la persona usuaria llega a esta página buscando un producto y queremos incentivar la compra múltiple, debe poder ver el listado de categorías que aparece en la página de inicio.
+
+![image.png](attachment:99bcbc91-2a64-41ba-8a04-5eee8feb3507:image.png)
+
+</aside>
+
+### **Validación**
+
+- La página tiene un encabezado con el logo de la empresa, un buscador y el nombre de la tienda.
+- La página tiene todos los detalles del producto.
+- La página tiene un botón que permite agregar el producto al carrito.
+- Se hace uso correcto de las etiquetas HTML y las opciones de accesibilidad.
+- Se respetan las buenas prácticas de usabilidad.
+
+## User Story #7
+
+<aside>
+👤
+
+Es recomendable trabajar esta story de forma individual. Puede ser asignada a una persona del equipo.
+
+</aside>
+
+***Código:** #main-s1-us7*
+
+***Nombre:** Construir página de carrito*
+
+### **Detalle**
+
+Como líder del Equipo de Diseño, quiero que la app cuente con una pantalla de *carrito* para permitir que las personas visualicen todos los productos que han marcado para adquirir. Esta pantalla será accesible desde /cart.
+
+![image.png](attachment:5defb51f-a245-48f9-904d-1304561f6caa:image.png)
+
+### **Escenarios**
+
+- Dado que la persona usuaria desea ver el contenido de su carrito y queremos que pueda gestionar el listado, debe poder ver un listado de productos/servicios (con una imagen, un nombre, un número expresando la cantidad que ha adquirido y un precio expresado en puntos).
+- Dado que la persona usuaria desea quitar un producto/servicio de su carrito, debe poder clickear en un botón ➖ (MENOS) sobre un ítem del listado de productos/servicios para reducir el contador en 1 (uno).
+- Dado que la persona usuaria desea agregar una unidad extra de un producto/servicio que tiene en su carrito, debe poder clickear en un botón ➕ (MÁS) sobre un ítem del listado de productos/servicios para aumentar el contador en 1 (uno).
+- Dado que la persona usuaria desea completar su pedido y abonar el monto total, debe poder clickear sobre un botón con la leyenda “Ir a Pagar” que la dirija a la página de pago.
+- Dado que la persona usuaria desea continuar comprando y añadiendo productos al carrito, debe poder clickear sobre un botón con la leyenda “Volver al listado” que la dirija a la página de inicio.
+
+<aside>
+✨
+
+***¡BONUS!*** Dado que la persona usuaria desea completar su pedido y abonar el monto total, pero quiere aprovechar un cupón de descuento, debe poder completar un campo con un código de descuento alfanumérico.
+
+</aside>
+
+### **Validación**
+
+- La página tiene un encabezado con el logo de la empresa, un buscador y el nombre de la tienda.
+- La página tiene un listado con los productos/servicios que la persona ha agregado a su carrito.
+- Cada producto del listado tiene una imagen, un título, un contador de unidades, un botón para reducir el contador, un botón para aumentar el contador y un monto total expresado en puntos
+- La página tiene un botón para continuar el proceso en la página de pago.
+- La página tiene un botón para continuar el proceso en la página de inicio.
+- Se hace uso correcto de las etiquetas HTML y las opciones de accesibilidad.
+- Se respetan las buenas prácticas de usabilidad.
+
+## User Story #8
+
+<aside>
+🤝
+
+Es recomendable trabajar esta story de forma colaborativa, usando los escenarios como subtareas o pasos necesarios para completarla.
+
+</aside>
+
+<aside>
+⚠️
+
+Para poder implementar esta User Story es necesario que las Stories *#main-s1-us3*, *#main-s1-us4*, *#main-s1-us5*, *#main-s1-us6* y *#main-s1-us7* estén terminadas o con un alto grado de avance.
+
+</aside>
+
+***Código:** #main-s1-us8*
+
+***Nombre:** Definir enlaces y esquema de navegación*
+
+### **Detalle**
+
+Como líder del Equipo de Desarrollo, quiero que implementemos el siguiente esquema lógico de navegación para dar cumplimiento al *navigation tree* definido por el Equipo de Diseño.
+
+🏠 HOME
+   📦 PRODUCT
+      🛒 CART
+   🛒 CART
+      💵 CHECKOUT
+   🔑 LOGIN
+      ➕ REGISTER
+   ➕ REGISTER
+
+![image.png](attachment:df6c43cf-b75b-48ea-a6bf-dcaa08857bb6:image.png)
+
+### **Escenarios**
+
+- (de 🏠Home a 📦Product) Dado que la persona usuaria está situada en la página de inicio y está observando un listado de productos, cuando hace click sobre un producto, entonces debe poder ir hasta la página del producto correspondiente.
+- (de 🏠Home a 🛒Cart) Dado que la persona usuaria está situada en la página de inicio y quiere ver su carrito, cuando hace click sobre el botón ‘ver carrito’, entonces debe poder ir hasta la página del carrito.
+- (de 🏠Home a 🔑Login) Dado que la persona usuaria está situada en la página de inicio y no se ha identificado y quiere identificarse y no posee credenciales de usuario y quiere identificarse, cuando hace click sobre el botón ‘Registrar’, entonces debe poder ir hasta la página de registro.
+- ✨***¡BONUS!*** (de 🏠Home a ➕Register) Dado que la persona usuaria está situada en la página de inicio y no se ha identificado y quiere identificarse, cuando hace click sobre el botón ‘Iniciar sesión’, entonces debe poder ir hasta la página de login.
+- (de 📦Product a 🛒Cart) Dado que la persona usuaria está situada en la página de un producto y quiere ver su carrito, cuando hace click sobre el botón ‘ver carrito’, entonces debe poder ir hasta la página del carrito.
+- (de 🛒Cart a 💵Checkout) Dado que la persona usuaria está situada en la página del carrito y quiere cerrar su orden de compra (y pagarla), cuando hace click sobre el botón ‘Pagar’, entonces debe poder ir hasta la página de pago (checkout).
+- (de 🔑Login a 🏠 Home) Dado que la persona usuaria está situada en la página de login y ha ingresado los datos correctos para identificarse, cuando hace click sobre el botón ‘Ok’, entonces debe poder ir hasta la página de inicio.
+- (de 🔑Login a ➕Register) Dado que la persona usuaria está situada en la página de login y no posee credenciales de usuario y quiere identificarse, cuando hace click sobre el botón ‘Registrar’, entonces debe poder ir hasta la página de registro.
+- (de ➕Register a 🏠Home) Dado que la persona usuaria está situada en la página de registro y ha completado el formulario, cuando hace click sobre el botón ‘Ok’, entonces debe poder ir hasta la página de Inicio.
+
+## User Story #9
+
+<aside>
+🤝
+
+Es recomendable trabajar esta story de forma colaborativa, usando los escenarios como subtareas o pasos necesarios para completarla.
+
+</aside>
+
+<aside>
+⚠️
+
+Para poder implementar esta User Story es necesario que las Stories *#main-s1-us3*, *#main-s1-us4*, *#main-s1-us5*, *#main-s1-us6* y *#main-s1-us7* estén terminadas o con un alto grado de avance.
+
+</aside>
+
+### Detalle
+
+Como usuario de la app, me gustaría poder usarla desde una pantalla pequeña en un dispositivo móvil para poder aprovechar mis burbujas de ocio en donde sólo dispongo de mi smartphone.
+
+### Más información
+
+El equipo de diseño ha realizado modificaciones en los prototipos en Figma para proveernos de algunas vistas adaptadas a dispositivos móviles. Se adjuntan imágenes para ilustrar.
+
+![image.png](attachment:1cb7e6fb-b07f-4c2a-bea9-8607e7031772:image.png)
+
+- Home
+    
+    
+    ![MobileProduct.png](attachment:d26fd1e6-56de-49b1-8bf6-2c1a2432c87c:MobileProduct.png)
+    
+    ![MenuMobile.png](attachment:44087d46-7866-4dc7-b622-07692e268c16:MenuMobile.png)
+    
+- Login y Register
+    
+    
+    ![MobileLogin.png](attachment:6f852247-aadf-4ca6-a23f-528089c12e8f:MobileLogin.png)
+    
+    ![MobileRegister.png](attachment:824e6059-83a2-4011-ad6d-e6af90f520cd:MobileRegister.png)
+    
+- Producto
+    
+    ![MobileProduct-1.png](attachment:489486a9-4294-4ea6-ac21-befda48198f0:MobileProduct-1.png)
+    
+- Carrito
+    
+    ![MobileCart.png](attachment:34f09e65-f8e7-451b-ba84-6144dc251061:MobileCart.png)

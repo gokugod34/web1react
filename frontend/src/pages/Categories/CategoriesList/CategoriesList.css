@@ -1,0 +1,223 @@
+.categories-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Header & Toolbar Styles */
+.categories-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 2px solid var(--turquesa);
+  padding-bottom: 1rem;
+}
+
+.categories-title {
+  font-family: var(--fuente-primaria);
+  font-size: 2.75rem;
+  letter-spacing: 1px;
+  color: var(--negro);
+  margin: 0;
+}
+
+.categories-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.categories-search {
+  background-color: var(--bg-main);
+  color: var(--blanco);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  padding: 0.75rem 1.25rem;
+  font-family: var(--fuente-secundaria);
+  font-size: 0.95rem;
+  outline: none;
+  min-width: 260px;
+  transition: all 0.25s ease;
+}
+
+.categories-search:focus {
+  border-color: var(--turquesa);
+  box-shadow: 0 0 8px rgba(0, 203, 214, 0.25);
+}
+
+.categories-add-button {
+  background-color: var(--negro);
+  color: var(--blanco);
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 0.75rem 1.25rem;
+  font-family: var(--fuente-primaria);
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.categories-add-button:hover {
+  background-color: var(--turquesa);
+  color: var(--negro);
+  border-color: var(--turquesa);
+}
+
+/* Table Card Container */
+.categories-table-container {
+  background-color: var(--bg-sidebar);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  overflow-x: auto;
+}
+
+.categories-empty-msg {
+  color: var(--gris-claro);
+  font-family: var(--fuente-secundaria);
+  text-align: center;
+  padding: 2rem 0;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+/* Dark Table Styles */
+.categories-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-family: var(--fuente-secundaria);
+  color: var(--blanco);
+}
+
+.categories-table th,
+.categories-table td {
+  padding: 1.1rem 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.categories-table th {
+  font-family: var(--fuente-primaria);
+  font-size: 1.25rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--turquesa);
+  background-color: rgba(0, 0, 0, 0.2);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+}
+
+.categories-table tbody tr {
+  transition: background-color 0.2s ease;
+}
+
+.categories-table tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.category-id {
+  font-family: monospace;
+  font-size: 0.95rem;
+  color: var(--gris-claro);
+  font-weight: bold;
+}
+
+.category-name-cell {
+  font-weight: 600;
+  color: var(--blanco);
+  cursor: pointer;
+  transition: color 0.25s ease;
+}
+
+.category-name-cell:hover {
+  color: var(--turquesa);
+  text-decoration: underline;
+}
+
+.category-description-cell {
+  color: var(--gris-claro);
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.category-products-cell {
+  color: var(--turquesa-oscuro);
+  font-weight: 600;
+}
+
+/* Actions Cell & Buttons */
+.actions-cell {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.actions-header {
+  text-align: center;
+}
+
+.btn-action {
+  font-family: var(--fuente-primaria);
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+  padding: 0.45rem 0.9rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  border: 1px solid transparent;
+}
+
+.btn-edit {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--blanco);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.btn-edit:hover {
+  background-color: var(--turquesa);
+  color: var(--negro);
+  border-color: var(--turquesa);
+  transform: translateY(-1px);
+}
+
+.btn-delete {
+  background-color: rgba(231, 76, 60, 0.15);
+  color: #e74c3c;
+  border-color: rgba(231, 76, 60, 0.25);
+}
+
+.btn-delete:hover {
+  background-color: #e74c3c;
+  color: var(--blanco);
+  border-color: #e74c3c;
+  transform: translateY(-1px);
+}
+
+/* Responsive Table Adaptations */
+@media (max-width: 768px) {
+  .categories-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .categories-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .categories-search {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .categories-add-button {
+    width: 100%;
+    text-align: center;
+  }
+}

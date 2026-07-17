@@ -1,0 +1,108 @@
+/* Mobile Responsive Overrides */
+.mobile-menu-btn, .close-menu-btn, .mobile-cart-icon {
+    display: none;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-main);
+    cursor: pointer;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Category menu fix for mobile */
+.category-list {
+    justify-content: flex-start;
+    padding-bottom: 0.5rem;
+}
+
+/* Mobile Layout Base */
+@media (max-width: 768px) {
+    .header-container {
+        flex-wrap: wrap;
+        padding: 1rem;
+    }
+    
+    .mobile-menu-btn, .mobile-cart-icon {
+        display: block;
+    }
+
+    .search-bar {
+        order: 3;
+        width: 100%;
+        margin-top: 1rem;
+        max-width: none;
+    }
+
+    /* Side Navigation Menu */
+    .header-nav {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 250px;
+        height: 100vh;
+        background: var(--card-bg);
+        box-shadow: var(--shadow-lg);
+        flex-direction: column;
+        padding: 2rem;
+        transition: left 0.3s ease;
+        z-index: 1000;
+        display: flex;
+        align-items: flex-start;
+    }
+
+    .header-nav.active {
+        left: 0;
+    }
+
+    .header-nav ul {
+        flex-direction: column;
+        align-items: flex-start !important;
+        width: 100%;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+
+    .header-nav ul li {
+        width: 100%;
+        margin-left: 0 !important;
+    }
+
+    .header-nav ul li a {
+        display: block;
+        width: 100%;
+        text-align: left;
+    }
+
+    .close-menu-btn {
+        display: block;
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+    }
+
+    .cart-li {
+        display: none; /* Hide desktop cart link in mobile menu, using top-right icon instead */
+    }
+
+    /* Adjusting margins/paddings for small screens */
+    .auth-section {
+        padding: 2rem 1.5rem;
+    }
+
+    .cart-item {
+        padding: 1rem;
+        gap: 1rem;
+    }
+    
+    .product-details-section {
+        padding: 1.5rem;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+    }
+}

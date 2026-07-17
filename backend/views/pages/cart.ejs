@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <%- include('../partials/organisms/header') %>
+
+    <main>
+        <h2>Tu Carrito</h2>
+        <div class="cart-items">
+            <!-- Items del carrito irían aquí -->
+            <p>Producto 1 - $99.99</p>
+        </div>
+        <%- include('../partials/atoms/button', { label: 'Ir al Checkout', action: '/checkout' }) %>
+    </main>
+
+    <%- include('../partials/organisms/footer') %>
+</body>
+</html>

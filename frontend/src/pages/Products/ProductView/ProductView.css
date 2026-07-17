@@ -1,0 +1,221 @@
+.product-view-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem 0 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Header Styles */
+.product-view-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 2px solid var(--turquesa);
+  padding-bottom: 1rem;
+}
+
+.product-view-title {
+  font-family: var(--fuente-primaria);
+  font-size: 2.75rem;
+  letter-spacing: 1px;
+  color: var(--negro);
+  margin: 0;
+}
+
+.product-view-btn-back {
+  background-color: var(--negro);
+  color: var(--blanco);
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  font-family: var(--fuente-primaria);
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.product-view-btn-back:hover {
+  background-color: var(--turquesa);
+  color: var(--negro);
+  border-color: var(--turquesa);
+}
+
+/* Card Form Container */
+.product-view-card {
+  background-color: var(--bg-sidebar);
+  color: var(--blanco);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Responsive Form Grid */
+.product-view-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.full-width {
+  grid-column: span 2;
+}
+
+.half-width {
+  grid-column: span 1;
+}
+
+@media (max-width: 600px) {
+  .product-view-form-grid {
+    grid-template-columns: 1fr;
+  }
+  .full-width,
+  .half-width {
+    grid-column: span 1;
+  }
+}
+
+/* Form Fields & Elegant Inputs */
+.product-view-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.product-view-field label {
+  font-family: var(--fuente-secundaria);
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--gris-claro);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.product-view-field input,
+.product-view-field select,
+.product-view-field textarea {
+  background-color: var(--bg-main);
+  color: var(--blanco);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  font-family: var(--fuente-secundaria);
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+  width: 100%;
+}
+
+.product-view-field select option {
+  background-color: var(--bg-sidebar);
+  color: var(--blanco);
+}
+
+/* Hide select default border/shadow styling and make select options readable */
+.product-view-field select {
+  cursor: pointer;
+}
+
+.product-view-field textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+/* Elegant Focus State with Glow */
+.product-view-field input:focus,
+.product-view-field select:focus,
+.product-view-field textarea:focus {
+  border-color: var(--turquesa);
+  box-shadow: 0 0 10px rgba(0, 203, 214, 0.3);
+}
+
+/* Hide Default Spinner Arrows in Numeric Inputs */
+/* Chrome, Safari, Edge, Opera */
+.product-view-field input::-webkit-outer-spin-button,
+.product-view-field input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.product-view-field input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* Actions Section */
+.product-view-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  padding-top: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+/* Form Buttons */
+.product-view-btn {
+  font-family: var(--fuente-primaria);
+  font-size: 1.25rem;
+  letter-spacing: 1px;
+  padding: 0.8rem 2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  outline: none;
+  border: 1px solid transparent;
+  text-transform: uppercase;
+}
+
+/* Primary Submit Button: Turquoise base with translateY lift on hover */
+.product-view-btn-primary {
+  background-color: var(--turquesa);
+  color: var(--negro);
+  border-color: var(--turquesa);
+}
+
+.product-view-btn-primary:hover {
+  background-color: var(--turquesa-oscuro);
+  border-color: var(--turquesa-oscuro);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 203, 214, 0.35);
+}
+
+.product-view-btn-primary:active {
+  transform: translateY(-1px);
+}
+
+/* Secondary Cancel Button */
+.product-view-btn-secondary {
+  background-color: var(--negro);
+  color: var(--blanco);
+  border-color: var(--negro);
+}
+
+.product-view-btn-secondary:hover {
+  background-color: var(--gris-oscuro);
+  border-color: var(--gris-oscuro);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.product-view-btn-secondary:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 600px) {
+  .product-view-actions {
+    flex-direction: column-reverse;
+  }
+  
+  .product-view-btn {
+    width: 100%;
+    text-align: center;
+  }
+}

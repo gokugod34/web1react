@@ -1,0 +1,182 @@
+.category-view-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem 0 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Header Styles */
+.category-view-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 2px solid var(--turquesa);
+  padding-bottom: 1rem;
+}
+
+.category-view-title {
+  font-family: var(--fuente-primaria);
+  font-size: 2.75rem;
+  letter-spacing: 1px;
+  color: var(--negro);
+  margin: 0;
+}
+
+.category-view-btn-back {
+  background-color: var(--negro);
+  color: var(--blanco);
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 0.6rem 1.2rem;
+  font-family: var(--fuente-primaria);
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.category-view-btn-back:hover {
+  background-color: var(--turquesa);
+  color: var(--negro);
+  border-color: var(--turquesa);
+}
+
+/* Card Form Container */
+.category-view-card {
+  background-color: var(--bg-sidebar);
+  color: var(--blanco);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Form Grid */
+.category-view-form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.full-width {
+  grid-column: span 1;
+}
+
+/* Form Fields & Elegant Inputs */
+.category-view-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.category-view-field label {
+  font-family: var(--fuente-secundaria);
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--gris-claro);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.category-view-field input,
+.category-view-field textarea {
+  background-color: var(--bg-main);
+  color: var(--blanco);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  font-family: var(--fuente-secundaria);
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  width: 100%;
+}
+
+.category-view-field textarea {
+  resize: vertical;
+  min-height: 140px;
+}
+
+/* Elegant Focus State with Glow */
+.category-view-field input:focus,
+.category-view-field textarea:focus {
+  border-color: var(--turquesa);
+  box-shadow: 0 0 10px rgba(0, 203, 214, 0.3);
+}
+
+/* Actions Section */
+.category-view-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+/* Form Buttons */
+.category-view-btn {
+  font-family: var(--fuente-primaria);
+  font-size: 1.25rem;
+  letter-spacing: 1px;
+  padding: 0.8rem 2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  outline: none;
+  border: 1px solid transparent;
+  text-transform: uppercase;
+}
+
+/* Primary Submit Button: Turquoise base with translateY lift on hover */
+.category-view-btn-primary {
+  background-color: var(--turquesa);
+  color: var(--negro);
+  border-color: var(--turquesa);
+}
+
+.category-view-btn-primary:hover {
+  background-color: var(--turquesa-oscuro);
+  border-color: var(--turquesa-oscuro);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 203, 214, 0.35);
+}
+
+.category-view-btn-primary:active {
+  transform: translateY(-1px);
+}
+
+/* Secondary Cancel Button */
+.category-view-btn-secondary {
+  background-color: var(--negro);
+  color: var(--blanco);
+  border-color: var(--negro);
+}
+
+.category-view-btn-secondary:hover {
+  background-color: var(--gris-oscuro);
+  border-color: var(--gris-oscuro);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.category-view-btn-secondary:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 600px) {
+  .category-view-actions {
+    flex-direction: column-reverse;
+  }
+  
+  .category-view-btn {
+    width: 100%;
+    text-align: center;
+  }
+}

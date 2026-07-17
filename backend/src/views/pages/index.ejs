@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <%- include('../partials/organisms/header') %>
+    <%- include('../partials/molecules/categoryMenu') %>
+
+    <main>
+        <section class="hero-section" aria-label="Productos destacados">
+            <article class="product-hero hero-1">
+                <div class="hero-content">
+                    <h2>Nuevos Ingresos</h2>
+                    <p>Descubrí lo último en tecnología</p>
+                    <a href="/products/1" class="btn">Ver Más</a>
+                </div>
+            </article>
+            <article class="product-hero hero-2">
+                <div class="hero-content">
+                    <h2>Ofertas Especiales</h2>
+                    <p>Hasta 50% de descuento en Indumentaria</p>
+                    <a href="/products/2" class="btn">Comprar Ahora</a>
+                </div>
+            </article>
+        </section>
+
+        <section class="product-list-section" aria-labelledby="products-heading">
+            <h2 id="products-heading">Te puede interesar</h2>
+            <div class="products-grid">
+                <% suggestedProducts.forEach(p => { %>
+                    <%- include('../partials/card', { producto: p }) %>
+                <% }) %>
+            </div>
+        </section>
+
+        <section class="product-list-section" aria-labelledby="top-sellers-heading">
+            <h2 id="top-sellers-heading">Los más pedidos</h2>
+            <div class="products-grid">
+                <% topSellers.forEach(p => { %>
+                    <%- include('../partials/card', { producto: p }) %>
+                <% }) %>
+            </div>
+        </section>
+    </main>
+
+    <%- include('../partials/molecules/categoryMenu') %>
+    <%- include('../partials/organisms/footer') %>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>

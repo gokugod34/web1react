@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <%- include('../partials/organisms/header') %>
+
+    <main>
+        <h2>Checkout</h2>
+        <form action="/checkout" method="POST">
+            <label for="address">Dirección de envío</label>
+            <input type="text" id="address" name="address" required>
+            <label for="card">Número de tarjeta</label>
+            <input type="text" id="card" name="card" required>
+            <button type="submit">Pagar</button>
+        </form>
+    </main>
+
+    <%- include('../partials/organisms/footer') %>
+</body>
+</html>
