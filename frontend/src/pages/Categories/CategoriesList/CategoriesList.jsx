@@ -1,28 +1,65 @@
-import { useState, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './CategoriesList.css';
 
 export default function CategoriesList() {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
-  const [categories, setCategories] = useState([
-    { id: 1, name: "Ropa", description: "Indumentaria general, hoodies, pantalones y remeras.", totalProducts: 14 },
-    { id: 2, name: "Accesorios", description: "Gorras, mochilas, cinturones y otros complementos.", totalProducts: 8 },
-    { id: 3, name: "Calzado", description: "Zapatillas deportivas, urbanas y botas de cuero.", totalProducts: 5 }
-  ]);
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        setLoading(true);
+        setError('');
+
+        const response = await fetch('/api/categories');
+
+        if (!response.ok) {
+          throw new Error('No se pudo cargar la lista de categorías');
+        }
+
+        const data = await response.json();
+        setCategories(Array.isArray(data) ? data : []);
+      } catch (err) {
+        setError(err.message || 'Error de red al cargar las categorías');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadCategories();
+  }, []);
 
   const filteredCategories = useMemo(() => {
     const term = searchTerm.trim().toLowerCase();
     if (!term) return categories;
-    return categories.filter(c => 
+    return categories.filter(c =>
       c.name.toLowerCase().includes(term) ||
-      c.description.toLowerCase().includes(term)
+      (c.description ?? '').toLowerCase().includes(term)
     );
   }, [categories, searchTerm]);
 
-  const handleDelete = (id) => {
-    if (window.confirm('¿Estás seguro de que deseas eliminar esta categoría? (Simulación)')) {
+  const handleDelete = async (id) => {
+    if (!window.confirm('¿Estás seguro de que deseas eliminar esta categoría?')) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/categories/${id}/delete`, {
+        method: 'DELETE'
+      });
+
+      if (!response.ok) {
+        const payload = await response.json().catch(() => ({}));
+        throw new Error(payload.error || 'No se pudo eliminar la categoría');
+      }
+
       setCategories(prev => prev.filter(c => c.id !== id));
+    } catch (err) {
+      setError(err.message || 'No se pudo eliminar la categoría');
     }
   };
 
@@ -44,7 +81,7 @@ export default function CategoriesList() {
           <button
             className="categories-add-button"
             type="button"
-            onClick={() => navigate('/categorias/nueva')}
+            onClick={() => navigate('/categories/new')}
           >
             ➕ Nueva Categoría
           </button>
@@ -52,7 +89,11 @@ export default function CategoriesList() {
       </header>
 
       <div className="categories-table-container">
-        {filteredCategories.length === 0 ? (
+        {loading ? (
+          <p className="categories-empty-msg">Cargando…</p>
+        ) : error ? (
+          <p className="categories-empty-msg">{error}</p>
+        ) : filteredCategories.length === 0 ? (
           <p className="categories-empty-msg">No se encontraron categorías.</p>
         ) : (
           <table className="categories-table">
@@ -61,7 +102,6 @@ export default function CategoriesList() {
                 <th>ID</th>
                 <th>Nombre</th>
                 <th>Descripción</th>
-                <th>Artículos Vinculados</th>
                 <th className="actions-header">Acciones</th>
               </tr>
             </thead>
@@ -69,20 +109,17 @@ export default function CategoriesList() {
               {filteredCategories.map((category) => (
                 <tr key={category.id}>
                   <td className="category-id">#{category.id}</td>
-                  <td 
+                  <td
                     className="category-name-cell"
-                    onClick={() => navigate(`/categorias/${category.id}`)}
+                    onClick={() => navigate(`/categories/${category.id}/edit`)}
                   >
                     {category.name}
                   </td>
                   <td className="category-description-cell">{category.description}</td>
-                  <td className="category-products-cell">
-                    {category.totalProducts} artículos
-                  </td>
                   <td className="actions-cell">
                     <button
                       className="btn-action btn-edit"
-                      onClick={() => navigate(`/categorias/editar/${category.id}`)}
+                      onClick={() => navigate(`/categories/${category.id}/edit`)}
                     >
                       ✍🏻 Editar
                     </button>

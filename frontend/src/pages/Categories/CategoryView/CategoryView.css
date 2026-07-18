@@ -46,15 +46,15 @@
 
 /* Card Form Container */
 .category-view-card {
-  background-color: var(--bg-sidebar);
-  color: var(--blanco);
+  background-color: var(--blanco);
+  color: var(--negro);
   border-radius: 16px;
   padding: 2rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   gap: 1.75rem;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--gris-claro);
 }
 
 /* Form Grid */
@@ -79,16 +79,16 @@
   font-family: var(--fuente-secundaria);
   font-weight: 700;
   font-size: 0.95rem;
-  color: var(--gris-claro);
+  color: var(--gris-oscuro);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .category-view-field input,
 .category-view-field textarea {
-  background-color: var(--bg-main);
-  color: var(--blanco);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background-color: var(--blanco);
+  color: var(--negro);
+  border: 1px solid var(--gris-claro);
   border-radius: 8px;
   padding: 0.85rem 1rem;
   font-family: var(--fuente-secundaria);
@@ -110,12 +110,18 @@
   box-shadow: 0 0 10px rgba(0, 203, 214, 0.3);
 }
 
+.category-view-error {
+  color: #b42318;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
 /* Actions Section */
 .category-view-actions {
   display: flex;
   justify-content: flex-end;
   gap: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid var(--gris-claro);
   padding-top: 1.5rem;
   margin-top: 0.5rem;
 }
