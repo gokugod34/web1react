@@ -3,12 +3,13 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import Home from './pages/Home/Home.jsx';
 import ProductsList from './pages/Products/ProductsList/ProductsList.jsx';
 import ProductView from './pages/Products/ProductView/ProductView.jsx';
+import CategoriesList from './pages/Categories/CategoriesList/CategoriesList.jsx';
+import CategoryView from './pages/Categories/CategoryView/CategoryView.jsx';
+import UsersList from './pages/Users/UsersList/UsersList.jsx';
+import UserView from './pages/Users/UserView/UserView.jsx';
 import './App.css'; // Importamos la estructura de la US#3
 
 // Componentes Dummys para las rutas
-const CategoriesList = () => <div><h2>🏪 Categorías</h2></div>;
-const CategoryNew = () => <div><h2>➕ Agregar Nueva Categoría</h2></div>;
-const UsersList = () => <div><h2>👥 Usuarios</h2></div>;
 const Profile = () => <div><h2>👤 Mi Perfil</h2></div>;
 const Error404 = () => <div><h2>❌ Error 404 - Página no encontrada</h2></div>;
 
@@ -58,8 +59,11 @@ function App() {
               <Route path="/products/new" element={<ProductView />} />
               <Route path="/products/:id" element={<ProductView />} />
               <Route path="/categories" element={<CategoriesList />} />
-              <Route path="/categories/new" element={<CategoryNew />} />
+              <Route path="/categories/new" element={<CategoryView key="new" />} />
+              <Route path="/categories/:id/edit" element={<CategoryView key="edit" />} />
               <Route path="/users" element={<UsersList />} />
+              <Route path="/users/new" element={<UserView key="new" />} />
+              <Route path="/users/:id/edit" element={<UserView key="edit" />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="*" element={<Error404 />} />
             </Routes>

@@ -29,9 +29,9 @@
 }
 
 .categories-search {
-  background-color: var(--bg-main);
-  color: var(--blanco);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background-color: var(--blanco);
+  color: var(--negro);
+  border: 1px solid var(--gris-claro);
   border-radius: 8px;
   padding: 0.75rem 1.25rem;
   font-family: var(--fuente-secundaria);
@@ -68,16 +68,16 @@
 
 /* Table Card Container */
 .categories-table-container {
-  background-color: var(--bg-sidebar);
+  background-color: var(--blanco);
   border-radius: 16px;
   padding: 1.5rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--gris-claro);
   overflow-x: auto;
 }
 
 .categories-empty-msg {
-  color: var(--gris-claro);
+  color: var(--gris-oscuro);
   font-family: var(--fuente-secundaria);
   text-align: center;
   padding: 2rem 0;
@@ -85,19 +85,18 @@
   margin: 0;
 }
 
-/* Dark Table Styles */
 .categories-table {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
   font-family: var(--fuente-secundaria);
-  color: var(--blanco);
+  color: var(--negro);
 }
 
 .categories-table th,
 .categories-table td {
   padding: 1.1rem 1.25rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--gris-claro);
 }
 
 .categories-table th {
@@ -106,8 +105,8 @@
   letter-spacing: 1px;
   text-transform: uppercase;
   color: var(--turquesa);
-  background-color: rgba(0, 0, 0, 0.2);
-  border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+  background-color: var(--negro);
+  border-bottom: 2px solid var(--negro);
 }
 
 .categories-table tbody tr {
@@ -115,30 +114,30 @@
 }
 
 .categories-table tbody tr:hover {
-  background-color: rgba(255, 255, 255, 0.03);
+  background-color: var(--gris-claro);
 }
 
 .category-id {
   font-family: monospace;
   font-size: 0.95rem;
-  color: var(--gris-claro);
+  color: var(--gris-oscuro);
   font-weight: bold;
 }
 
 .category-name-cell {
   font-weight: 600;
-  color: var(--blanco);
+  color: var(--negro);
   cursor: pointer;
   transition: color 0.25s ease;
 }
 
 .category-name-cell:hover {
-  color: var(--turquesa);
+  color: var(--turquesa-oscuro);
   text-decoration: underline;
 }
 
 .category-description-cell {
-  color: var(--gris-claro);
+  color: var(--gris-oscuro);
   max-width: 300px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -173,9 +172,9 @@
 }
 
 .btn-edit {
-  background-color: rgba(255, 255, 255, 0.08);
-  color: var(--blanco);
-  border-color: rgba(255, 255, 255, 0.15);
+  background-color: var(--gris-claro);
+  color: var(--negro);
+  border-color: var(--gris-claro);
 }
 
 .btn-edit:hover {

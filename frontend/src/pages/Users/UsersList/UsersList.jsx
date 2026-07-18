@@ -1,29 +1,65 @@
-import { useState, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './UsersList.css';
 
 export default function UsersList() {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
-  const [users, setUsers] = useState([
-    { id: 1, name: "Admin Principal", email: "admin@vimet.com", role: "Administrador", status: "Activo" },
-    { id: 2, name: "Juan Pérez", email: "juan@vimet.com", role: "Usuario", status: "Activo" },
-    { id: 3, name: "María López", email: "maria@vimet.com", role: "Usuario", status: "Inactivo" }
-  ]);
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const loadUsers = async () => {
+      try {
+        setLoading(true);
+        setError('');
+
+        const response = await fetch('/api/users');
+
+        if (!response.ok) {
+          throw new Error('No se pudo cargar la lista de usuarios');
+        }
+
+        const data = await response.json();
+        setUsers(Array.isArray(data) ? data : []);
+      } catch (err) {
+        setError(err.message || 'Error de red al cargar los usuarios');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadUsers();
+  }, []);
 
   const filteredUsers = useMemo(() => {
     const term = searchTerm.trim().toLowerCase();
     if (!term) return users;
-    return users.filter(u => 
+    return users.filter(u =>
       u.name.toLowerCase().includes(term) ||
-      u.email.toLowerCase().includes(term) ||
-      u.role.toLowerCase().includes(term)
+      u.email.toLowerCase().includes(term)
     );
   }, [users, searchTerm]);
 
-  const handleDelete = (id) => {
-    if (window.confirm('¿Estás seguro de que deseas eliminar este usuario? (Simulación)')) {
+  const handleDelete = async (id) => {
+    if (!window.confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/users/${id}/delete`, {
+        method: 'DELETE'
+      });
+
+      if (!response.ok) {
+        const payload = await response.json().catch(() => ({}));
+        throw new Error(payload.error || 'No se pudo eliminar el usuario');
+      }
+
       setUsers(prev => prev.filter(u => u.id !== id));
+    } catch (err) {
+      setError(err.message || 'No se pudo eliminar el usuario');
     }
   };
 
@@ -45,7 +81,7 @@ export default function UsersList() {
           <button
             className="users-add-button"
             type="button"
-            onClick={() => navigate('/usuarios/nuevo')}
+            onClick={() => navigate('/users/new')}
           >
             ➕ Nuevo Usuario
           </button>
@@ -53,7 +89,11 @@ export default function UsersList() {
       </header>
 
       <div className="users-table-container">
-        {filteredUsers.length === 0 ? (
+        {loading ? (
+          <p className="users-empty-msg">Cargando…</p>
+        ) : error ? (
+          <p className="users-empty-msg">{error}</p>
+        ) : filteredUsers.length === 0 ? (
           <p className="users-empty-msg">No se encontraron usuarios.</p>
         ) : (
           <table className="users-table">
@@ -62,8 +102,6 @@ export default function UsersList() {
                 <th>ID</th>
                 <th>Nombre</th>
                 <th>Email</th>
-                <th>Rol</th>
-                <th>Estado</th>
                 <th className="actions-header">Acciones</th>
               </tr>
             </thead>
@@ -71,27 +109,17 @@ export default function UsersList() {
               {filteredUsers.map((user) => (
                 <tr key={user.id}>
                   <td className="user-id">#{user.id}</td>
-                  <td 
+                  <td
                     className="user-name-cell"
-                    onClick={() => navigate(`/usuarios/${user.id}`)}
+                    onClick={() => navigate(`/users/${user.id}/edit`)}
                   >
                     {user.name}
                   </td>
                   <td className="user-email-cell">{user.email}</td>
-                  <td>
-                    <span className={`user-role-tag ${user.role === 'Administrador' ? 'role-admin' : 'role-user'}`}>
-                      {user.role}
-                    </span>
-                  </td>
-                  <td>
-                    <span className={`status-badge ${user.status === 'Activo' ? 'status-active' : 'status-inactive'}`}>
-                      {user.status}
-                    </span>
-                  </td>
                   <td className="actions-cell">
                     <button
                       className="btn-action btn-edit"
-                      onClick={() => navigate(`/usuarios/editar/${user.id}`)}
+                      onClick={() => navigate(`/users/${user.id}/edit`)}
                     >
                       ✍🏻 Editar
                     </button>

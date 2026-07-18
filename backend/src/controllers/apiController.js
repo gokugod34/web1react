@@ -1,5 +1,6 @@
 const productService = require('../services/productService');
 const categoryService = require('../services/categoryService');
+const userService = require('../services/userService');
 
 const toNumberOrDefault = (value, fallback = 0) => {
     if (value === '' || value === undefined || value === null) {
@@ -9,6 +10,8 @@ const toNumberOrDefault = (value, fallback = 0) => {
     const parsed = Number(value);
     return Number.isFinite(parsed) ? parsed : fallback;
 };
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const apiController = {
     listProducts: (req, res) => {
@@ -154,6 +157,81 @@ const apiController = {
         }
 
         categoryService.remove(categoryId);
+        return res.status(204).send();
+    },
+
+    listUsers: (req, res) => {
+        res.json(userService.findAll());
+    },
+
+    getUserById: (req, res) => {
+        const user = userService.findById(req.params.id);
+
+        if (!user) {
+            return res.status(404).json({ error: 'Usuario no encontrado' });
+        }
+
+        return res.json(user);
+    },
+
+    createUser: (req, res) => {
+        const body = req.body || {};
+        const name = typeof body.name === 'string' ? body.name.trim() : '';
+        const email = typeof body.email === 'string' ? body.email.trim() : '';
+
+        if (!name) {
+            return res.status(400).json({ error: 'El nombre es requerido' });
+        }
+
+        if (!email || !EMAIL_REGEX.test(email)) {
+            return res.status(400).json({ error: 'El email es requerido y debe tener un formato válido' });
+        }
+
+        try {
+            const newUser = userService.create({ name, email });
+            return res.status(201).json(newUser);
+        } catch (err) {
+            return res.status(400).json({ error: err.message || 'No se pudo crear el usuario' });
+        }
+    },
+
+    updateUser: (req, res) => {
+        const userId = req.params.id;
+        const existingUser = userService.findById(userId);
+
+        if (!existingUser) {
+            return res.status(404).json({ error: 'Usuario no encontrado' });
+        }
+
+        const body = req.body || {};
+        const name = typeof body.name === 'string' ? body.name.trim() : '';
+        const email = typeof body.email === 'string' ? body.email.trim() : '';
+
+        if (!name) {
+            return res.status(400).json({ error: 'El nombre es requerido' });
+        }
+
+        if (!email || !EMAIL_REGEX.test(email)) {
+            return res.status(400).json({ error: 'El email es requerido y debe tener un formato válido' });
+        }
+
+        try {
+            const updatedUser = userService.update(userId, { name, email });
+            return res.json(updatedUser);
+        } catch (err) {
+            return res.status(400).json({ error: err.message || 'No se pudo actualizar el usuario' });
+        }
+    },
+
+    deleteUser: (req, res) => {
+        const userId = req.params.id;
+        const existingUser = userService.findById(userId);
+
+        if (!existingUser) {
+            return res.status(404).json({ error: 'Usuario no encontrado' });
+        }
+
+        userService.remove(userId);
         return res.status(204).send();
     }
 };
