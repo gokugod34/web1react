@@ -22,10 +22,6 @@
     /* Layout */
     --sidebar-width: 296px;
     --header-height: 72px; /* Nueva variable del Sprint 4 */
-    
-    /* Variables de Fondo para Formularios y Tarjetas */
-    --bg-sidebar: var(--gris-oscuro);
-    --bg-main: var(--negro);
 }
 
 body {
@@ -55,7 +51,6 @@ body {
 }
 
 .sidebar-logo {
-    position: relative;
     padding: 2rem;
     text-align: center;
     background-color: var(--negro);
@@ -93,24 +88,6 @@ body {
     color: var(--turquesa);
     border-left: 5px solid var(--turquesa);
     background-color: var(--blanco);
-}
-
-.close-sidebar {
-    display: none;
-    background: transparent;
-    border: none;
-    color: var(--blanco);
-    font-size: 1.8rem;
-    cursor: pointer;
-    position: absolute;
-    top: 50%;
-    right: 1.5rem;
-    transform: translateY(-50%);
-    transition: color 0.3s ease;
-}
-
-.close-sidebar:hover {
-    color: var(--turquesa);
 }
 
 /* ========================================= */
@@ -167,18 +144,10 @@ body {
     background-color: var(--negro);
     color: var(--blanco);
     border: none;
-    padding: 0.5rem 1.2rem;
-    font-size: 1.4rem;
-    font-family: var(--fuente-primaria);
-    letter-spacing: 1px;
-    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    font-size: 1.5rem;
     cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.menu-toggle:hover {
-    background-color: var(--turquesa);
-    color: var(--negro);
+    margin-bottom: 1rem;
 }
 
 /* --- TUS ESTILOS ADAPTADOS (Sección Hoodies/Productos) --- */
@@ -257,16 +226,11 @@ body {
         position: fixed;
         height: 100vh;
         transform: translateX(-100%);
-        z-index: 1000;
     }
 
     .sidebar.open {
         transform: translateX(0);
         box-shadow: 4px 0 15px rgba(0,0,0,0.2);
-    }
-
-    .close-sidebar {
-        display: block;
     }
 
     .main-area {

@@ -2,217 +2,323 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import './ProductView.css';
 
+const buildFormState = (product) => ({
+  name: product?.name ?? '',
+  description: product?.description ?? '',
+  price: product?.price ?? 0,
+  stock: product?.stock ?? 0,
+  image: product?.image ?? ''
+});
+
+const toIntegerOrZero = (value) => {
+  const normalized = Number(value);
+  return Number.isInteger(normalized) ? normalized : 0;
+};
+
+const INVALID_NUMBER_KEYS = ['e', 'E', '+', '-'];
+
+const blockInvalidNumberKeys = (event) => {
+  if (INVALID_NUMBER_KEYS.includes(event.key)) {
+    event.preventDefault();
+  }
+};
+
+const STOCK_MIN = 0;
+const STOCK_MAX = 20000;
+
+const clampStock = (value) => Math.min(STOCK_MAX, Math.max(STOCK_MIN, value));
+
 export default function ProductView() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const esEdicion = !!id;
+  const isNew = !id;
 
-  const [formData, setFormData] = useState({
-    nombre: '',
-    precio: '',
-    stock: '',
-    categoria: '',
-    descripcion: ''
-  });
-
-  const [loading, setLoading] = useState(false);
+  const [product, setProduct] = useState(null);
+  const [formData, setFormData] = useState(buildFormState());
+  const [loading, setLoading] = useState(!isNew);
+  const [error, setError] = useState('');
+  const [submitError, setSubmitError] = useState('');
 
   useEffect(() => {
-    if (esEdicion) {
-      const fetchProduct = async () => {
-        try {
-          setLoading(true);
-          const response = await fetch(`http://localhost:3000/api/productos/${id}`);
-          if (!response.ok) {
-            throw new Error('No se pudo cargar el producto desde el servidor');
-          }
-          const data = await response.json();
-          setFormData({
-            nombre: data.nombre || '',
-            precio: data.precio !== undefined ? String(data.precio) : '',
-            stock: data.stock !== undefined ? String(data.stock) : '',
-            categoria: data.categoria || '',
-            descripcion: data.descripcion || ''
-          });
-        } catch (err) {
-          console.error('Error cargando producto para edición:', err);
-          alert('Error: ' + (err.message || 'No se pudo conectar con el servidor.'));
-          navigate('/productos');
-        } finally {
-          setLoading(false);
+    const loadProduct = async () => {
+      try {
+        setLoading(true);
+        setError('');
+
+        const response = await fetch(`/api/products/${id}`);
+
+        if (!response.ok) {
+          throw new Error('No se pudo cargar el producto');
         }
-      };
 
-      fetchProduct();
-    } else {
-      setFormData({
-        nombre: '',
-        precio: '',
-        stock: '',
-        categoria: '',
-        descripcion: ''
-      });
+        const data = await response.json();
+        setProduct(data);
+        setFormData(buildFormState(data));
+      } catch (err) {
+        setError(err.message || 'Error de red al cargar el producto');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (id) {
+      loadProduct();
     }
-  }, [id, esEdicion, navigate]);
+  }, [id]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value
+  const updateField = (field, value) => {
+    setFormData((current) => ({
+      ...current,
+      [field]: value
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const url = esEdicion ? `/api/productos/${id}` : '/api/productos';
-      const method = esEdicion ? 'PUT' : 'POST';
+  const handleCancel = () => {
+    setFormData(buildFormState(isNew ? null : product));
+    setSubmitError('');
+  };
 
+  const handleStockChange = (nextValue) => {
+    const numericValue = Number(nextValue);
+
+    if (Number.isNaN(numericValue)) {
+      updateField('stock', '');
+      return;
+    }
+
+    updateField('stock', Math.trunc(numericValue));
+  };
+
+  const handleStockBlur = () => {
+    const numericValue = Number(formData.stock);
+    const normalized = Number.isNaN(numericValue) ? STOCK_MIN : clampStock(Math.trunc(numericValue));
+    updateField('stock', normalized);
+  };
+
+  const adjustStock = (delta) => {
+    const current = Number(formData.stock);
+    const base = Number.isNaN(current) ? STOCK_MIN : Math.trunc(current);
+    updateField('stock', clampStock(base + delta));
+  };
+
+  const handleSave = async () => {
+    const trimmedName = String(formData.name).trim();
+    const priceValue = Number(formData.price);
+    const stockValue = Number(formData.stock);
+
+    if (!trimmedName) {
+      setSubmitError('El nombre es requerido');
+      return;
+    }
+
+    if (!Number.isInteger(priceValue) || !Number.isInteger(stockValue)) {
+      setSubmitError('El precio y el stock deben ser enteros');
+      return;
+    }
+
+    try {
+      setSubmitError('');
+
+      const url = isNew ? '/api/products/new' : `/api/products/${id}/edit`;
       const response = await fetch(url, {
-        method,
+        method: isNew ? 'POST' : 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          nombre: formData.nombre,
-          precio: Number(formData.precio) || 0,
-          stock: Number(formData.stock) || 0,
-          categoria: formData.categoria,
-          descripcion: formData.descripcion
+          name: trimmedName,
+          description: formData.description,
+          price: Number.isFinite(priceValue) ? priceValue : 0,
+          image: formData.image,
+          stock: Number.isFinite(stockValue) ? stockValue : 0
         })
       });
 
       if (!response.ok) {
-        throw new Error('Error al intentar guardar los datos del producto');
+        const payload = await response.json().catch(() => ({}));
+        throw new Error(payload.error || 'No se pudo guardar el producto');
       }
 
-      alert(`¡Producto ${esEdicion ? 'actualizado' : 'creado'} con éxito!`);
-      navigate('/productos');
+      const savedProduct = await response.json();
+
+      if (isNew) {
+        navigate(`/products/${savedProduct.id}`);
+        return;
+      }
+
+      setProduct(savedProduct);
+      setFormData(buildFormState(savedProduct));
     } catch (err) {
-      console.error('Error al guardar el producto:', err);
-      alert(err.message || 'Error de red al guardar el producto.');
+      setSubmitError(err.message || 'No se pudo guardar el producto');
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      const response = await fetch(`/api/products/${id}/delete`, {
+        method: 'DELETE'
+      });
+
+      if (!response.ok) {
+        const payload = await response.json().catch(() => ({}));
+        throw new Error(payload.error || 'No se pudo eliminar el producto');
+      }
+
+      navigate('/products');
+    } catch (err) {
+      setSubmitError(err.message || 'No se pudo eliminar el producto');
     }
   };
 
   if (loading) {
-    return (
-      <div className="product-view-container">
-        <p className="products-empty-msg">Cargando datos del producto...</p>
-      </div>
-    );
+    return <p className="products-status">Cargando…</p>;
+  }
+
+  if (error) {
+    return <p className="products-status products-status--error">{error}</p>;
   }
 
   return (
-    <div className="product-view-container">
+    <section className="product-view-page">
       <header className="product-view-header">
-        <h1 className="product-view-title">
-          {esEdicion ? '✍🏻 Editar Producto' : '➕ Nuevo Producto'}
-        </h1>
-        <button 
-          className="product-view-btn-back" 
-          type="button" 
-          onClick={() => navigate('/productos')}
-        >
-          Volver al listado
-        </button>
+        <h1 className="product-view-title">{isNew ? 'Productos > Nuevo Producto' : `Productos > #${id}`}</h1>
+        {isNew ? null : (
+          <button className="product-view-delete-button" type="button" onClick={handleDelete}>
+            Eliminar
+          </button>
+        )}
       </header>
 
-      <form onSubmit={handleSubmit} className="product-view-card">
-        <div className="product-view-form-grid">
-          {/* Nombre */}
-          <div className="product-view-field full-width">
-            <label htmlFor="nombre">Nombre</label>
+      <div className="product-view-grid">
+        {isNew ? null : (
+          <article className="product-view-card">
+            <h2>Resumen</h2>
+
+            <div className="product-view-meta">
+              <div className="product-view-meta-item">
+                <span className="product-view-meta-label">Nombre</span>
+                <span className="product-view-meta-value">{product?.name}</span>
+              </div>
+              <div className="product-view-meta-item">
+                <span className="product-view-meta-label">Identificador</span>
+                <span className="product-view-meta-value">#{product?.id}</span>
+              </div>
+              <div className="product-view-meta-item">
+                <span className="product-view-meta-label">Stock</span>
+                <span className="product-view-meta-value">{product?.stock}</span>
+              </div>
+              <div className="product-view-meta-item">
+                <span className="product-view-meta-label">Precio</span>
+                <span className="product-view-meta-value">${Number(product?.price ?? 0).toLocaleString('es-AR')}</span>
+              </div>
+              <div className="product-view-meta-item">
+                <span className="product-view-meta-label">Categoría / Tienda</span>
+                <span className="product-view-meta-value">{product?.category || 'Sin categoría'}</span>
+              </div>
+            </div>
+
+            {product?.image ? (
+              <img className="product-view-image" src={product.image} alt={product.name} />
+            ) : null}
+          </article>
+        )}
+
+        <section className="product-view-form">
+          <h2>{isNew ? 'Nuevo producto' : 'Editar producto'}</h2>
+
+          <div className="product-view-field">
+            <label htmlFor="product-name">Nombre</label>
             <input
-              id="nombre"
-              name="nombre"
+              id="product-name"
               type="text"
-              required
-              placeholder="Ej. Buzo Oversize"
-              value={formData.nombre}
-              onChange={handleChange}
+              value={formData.name}
+              onChange={(event) => updateField('name', event.target.value)}
             />
           </div>
 
-          {/* Precio y Stock */}
-          <div className="product-view-field half-width">
-            <label htmlFor="precio">Precio</label>
-            <input
-              id="precio"
-              name="precio"
-              type="number"
-              required
-              min="0"
-              placeholder="0"
-              value={formData.precio}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="product-view-field half-width">
-            <label htmlFor="stock">Stock</label>
-            <input
-              id="stock"
-              name="stock"
-              type="number"
-              required
-              min="0"
-              placeholder="0"
-              value={formData.stock}
-              onChange={handleChange}
-            />
-          </div>
-
-          {/* Categoría */}
-          <div className="product-view-field full-width">
-            <label htmlFor="categoria">Categoría</label>
-            <select
-              id="categoria"
-              name="categoria"
-              required
-              value={formData.categoria}
-              onChange={handleChange}
-            >
-              <option value="" disabled>Selecciona una categoría</option>
-              <option value="Buzos">Buzos</option>
-              <option value="Camperas">Camperas</option>
-              <option value="Remeras">Remeras</option>
-              <option value="Pantalones">Pantalones</option>
-              <option value="Accesorios">Accesorios</option>
-            </select>
-          </div>
-
-          {/* Descripción */}
-          <div className="product-view-field full-width">
-            <label htmlFor="descripcion">Descripción</label>
+          <div className="product-view-field">
+            <label htmlFor="product-description">Descripción</label>
             <textarea
-              id="descripcion"
-              name="descripcion"
-              rows="5"
-              placeholder="Escribe la descripción del producto..."
-              value={formData.descripcion}
-              onChange={handleChange}
+              id="product-description"
+              value={formData.description}
+              onChange={(event) => updateField('description', event.target.value)}
             />
           </div>
-        </div>
 
-        {/* Acciones */}
-        <div className="product-view-actions">
-          <button 
-            type="button" 
-            className="product-view-btn product-view-btn-secondary"
-            onClick={() => navigate('/productos')}
-          >
-            Cancelar
-          </button>
-          <button 
-            type="submit" 
-            className="product-view-btn product-view-btn-primary"
-          >
-            {esEdicion ? 'Guardar Cambios' : 'Crear Producto'}
-          </button>
-        </div>
-      </form>
-    </div>
+          <div className="product-view-field">
+            <label htmlFor="product-price">Precio</label>
+            <input
+              id="product-price"
+              type="number"
+              className="product-view-input-number"
+              value={formData.price}
+              onChange={(event) => updateField('price', event.target.value)}
+              onKeyDown={blockInvalidNumberKeys}
+            />
+          </div>
+
+          <div className="product-view-field">
+            <label htmlFor="product-stock">Stock</label>
+            <div className="product-view-stock-control">
+              <input
+                id="product-stock"
+                type="number"
+                className="product-view-input-number product-view-stock-input"
+                value={formData.stock}
+                onChange={(event) => handleStockChange(event.target.value)}
+                onKeyDown={blockInvalidNumberKeys}
+                onBlur={handleStockBlur}
+              />
+              <div className="product-view-stepper">
+                <button
+                  type="button"
+                  onClick={() => adjustStock(-1)}
+                  disabled={Number(formData.stock) <= STOCK_MIN}
+                >
+                  -
+                </button>
+                <button
+                  type="button"
+                  onClick={() => adjustStock(1)}
+                  disabled={Number(formData.stock) >= STOCK_MAX}
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="product-view-field">
+            <label htmlFor="product-image">Imagen (URL)</label>
+            <div className="product-view-stock-row">
+              <input
+                id="product-image"
+                type="text"
+                value={formData.image}
+                onChange={(event) => updateField('image', event.target.value)}
+              />
+              <button
+                className="product-view-button product-view-button--secondary"
+                type="button"
+                onClick={() => updateField('image', '')}
+              >
+                Quitar imagen
+              </button>
+            </div>
+          </div>
+
+          {submitError ? <p className="product-view-error">{submitError}</p> : null}
+
+          <div className="product-view-actions">
+            <button className="product-view-button product-view-button--secondary" type="button" onClick={handleCancel}>
+              Cancelar
+            </button>
+            <button className="product-view-button" type="button" onClick={handleSave}>
+              Guardar
+            </button>
+          </div>
+        </section>
+      </div>
+    </section>
   );
 }
