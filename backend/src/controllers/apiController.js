@@ -100,6 +100,61 @@ const apiController = {
 
     listCategories: (req, res) => {
         res.json(categoryService.findAll());
+    },
+
+    getCategoryById: (req, res) => {
+        const category = categoryService.findById(req.params.id);
+
+        if (!category) {
+            return res.status(404).json({ error: 'Categoría no encontrada' });
+        }
+
+        return res.json(category);
+    },
+
+    createCategory: (req, res) => {
+        const body = req.body || {};
+        const name = typeof body.name === 'string' ? body.name.trim() : '';
+        const description = typeof body.description === 'string' ? body.description : '';
+
+        if (!name) {
+            return res.status(400).json({ error: 'El nombre es requerido' });
+        }
+
+        const newCategory = categoryService.create({ name, description });
+        return res.status(201).json(newCategory);
+    },
+
+    updateCategory: (req, res) => {
+        const categoryId = req.params.id;
+        const existingCategory = categoryService.findById(categoryId);
+
+        if (!existingCategory) {
+            return res.status(404).json({ error: 'Categoría no encontrada' });
+        }
+
+        const body = req.body || {};
+        const name = typeof body.name === 'string' ? body.name.trim() : '';
+        const description = typeof body.description === 'string' ? body.description : '';
+
+        if (!name) {
+            return res.status(400).json({ error: 'El nombre es requerido' });
+        }
+
+        const updatedCategory = categoryService.update(categoryId, { name, description });
+        return res.json(updatedCategory);
+    },
+
+    deleteCategory: (req, res) => {
+        const categoryId = req.params.id;
+        const existingCategory = categoryService.findById(categoryId);
+
+        if (!existingCategory) {
+            return res.status(404).json({ error: 'Categoría no encontrada' });
+        }
+
+        categoryService.remove(categoryId);
+        return res.status(204).send();
     }
 };
 
