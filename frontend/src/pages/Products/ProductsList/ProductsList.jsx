@@ -1,156 +1,126 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ProductsList.css';
 
 export default function ProductsList() {
   const navigate = useNavigate();
-  const [searchTerm, setSearchTerm] = useState('');
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
 
-  // Carga de productos desde el backend real
   useEffect(() => {
-    const fetchProducts = async () => {
+    const loadProducts = async () => {
       try {
         setLoading(true);
         setError('');
-        const response = await fetch('http://localhost:3000/api/productos');
+
+        const response = await fetch('/api/products');
+
         if (!response.ok) {
-          throw new Error('No se pudo cargar la lista de productos desde el servidor');
+          throw new Error('No se pudo cargar la lista de productos');
         }
+
         const data = await response.json();
-        setProducts(data);
+        setProducts(Array.isArray(data) ? data : []);
       } catch (err) {
-        console.error('Error cargando productos:', err);
-        setError(err.message || 'Error al conectar con el servidor.');
+        setError(err.message || 'Error de red al cargar los productos');
       } finally {
         setLoading(false);
       }
     };
 
-    fetchProducts();
+    loadProducts();
   }, []);
 
   const filteredProducts = useMemo(() => {
-    const term = searchTerm.trim().toLowerCase();
-    if (!term) return products;
-    return products.filter(p => 
-      (p.name || '').toLowerCase().includes(term) ||
-      (p.nombre || '').toLowerCase().includes(term) ||
-      (p.categoria || '').toLowerCase().includes(term) ||
-      (p.category || '').toLowerCase().includes(term) ||
-      (p.descripcion || '').toLowerCase().includes(term) ||
-      (p.description || '').toLowerCase().includes(term)
-    );
-  }, [products, searchTerm]);
+    const normalizedTerm = searchTerm.trim().toLowerCase();
 
-  const handleDelete = async (id) => {
-    if (window.confirm('¿Estás seguro de que deseas eliminar este producto?')) {
-      try {
-        const response = await fetch(`http://localhost:3000/api/productos/${id}`, {
-          method: 'DELETE'
-        });
-        if (!response.ok) {
-          throw new Error('No se pudo eliminar el producto en el servidor');
-        }
-        setProducts(prev => prev.filter(p => p.id !== id));
-      } catch (err) {
-        console.error('Error eliminando producto:', err);
-        alert(err.message);
-      }
+    if (!normalizedTerm) {
+      return products;
     }
-  };
+
+    return products.filter((product) => {
+      // Bonus opcional: se puede extender la búsqueda a categoría o descripción.
+      const queryableText = [product.name, product.description, product.category]
+        .filter(Boolean)
+        .join(' ')
+        .toLowerCase();
+
+      return queryableText.includes(normalizedTerm);
+    });
+  }, [products, searchTerm]);
 
   return (
     <section className="products-page">
       <header className="products-header">
-        <h1 className="products-title">📦 Productos</h1>
+        <h1 className="products-title">Productos</h1>
 
         <div className="products-toolbar">
           <input
             className="products-search"
             type="search"
-            placeholder="Buscar producto..."
+            placeholder="Buscar producto"
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(event) => setSearchTerm(event.target.value)}
             aria-label="Buscar producto"
           />
 
           <button
             className="products-add-button"
             type="button"
-            onClick={() => navigate('/productos/nuevo')}
+            onClick={() => navigate('/products/new')}
           >
-            ➕ Nuevo Producto
+            Agregar Producto
           </button>
         </div>
       </header>
 
       {loading ? (
-        <div className="products-table-container">
-          <p className="products-empty-msg">Cargando productos desde el servidor...</p>
-        </div>
+        <p className="products-status">Cargando…</p>
       ) : error ? (
-        <div className="products-table-container">
-          <p className="products-empty-msg" style={{ color: '#e74c3c' }}>{error}</p>
-        </div>
+        <p className="products-status products-status--error">{error}</p>
+      ) : filteredProducts.length === 0 ? (
+        <p className="products-status">No se encontraron productos que coincidan con la búsqueda.</p>
       ) : (
-        <div className="products-table-container">
-          {filteredProducts.length === 0 ? (
-            <p className="products-empty-msg">No se encontraron productos.</p>
-          ) : (
-            <table className="products-table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Nombre</th>
-                  <th>Categoría</th>
-                  <th>Precio</th>
-                  <th>Stock</th>
-                  <th className="actions-header">Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredProducts.map((product) => (
-                  <tr key={product.id}>
-                    <td className="product-id">#{product.id}</td>
-                    <td 
-                      className="product-name-cell"
-                      onClick={() => navigate(`/productos/${product.id}`)}
-                    >
-                      {product.nombre || product.name}
-                    </td>
-                    <td>
-                      <span className="product-category-tag">{product.categoria || product.category || 'Ropa'}</span>
-                    </td>
-                    <td className="product-price-cell">
-                      ${Number(product.precio || product.price || 0).toLocaleString('es-AR')}
-                    </td>
-                    <td className="product-stock-cell">
-                      <span className={`stock-status ${Number(product.stock) < 10 ? 'stock-low' : 'stock-ok'}`}>
-                        {product.stock} u.
-                      </span>
-                    </td>
-                    <td className="actions-cell">
-                      <button
-                        className="btn-action btn-edit"
-                        onClick={() => navigate(`/productos/editar/${product.id}`)}
-                      >
-                        ✍🏻 Editar
-                      </button>
-                      <button
-                        className="btn-action btn-delete"
-                        onClick={() => handleDelete(product.id)}
-                      >
-                        🗑️ Eliminar
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
+        <div className="products-grid">
+          {filteredProducts.map((product) => (
+            <article
+              key={product.id}
+              className="product-card"
+              onClick={() => navigate(`/products/${product.id}`)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault();
+                  navigate(`/products/${product.id}`);
+                }
+              }}
+            >
+              <div className="product-image-wrap">
+                {product.image ? (
+                  <img
+                    className="product-image"
+                    src={product.image}
+                    alt={product.name}
+                    loading="lazy"
+                  />
+                ) : (
+                  <div className="product-image product-image--placeholder">Sin imagen</div>
+                )}
+              </div>
+
+              <div className="product-body">
+                <h2 className="product-name">{product.name}</h2>
+                <p className="product-description">{product.description}</p>
+                <div className="product-meta">
+                  <span className="product-price">${Number(product.price).toLocaleString('es-AR')}</span>
+                  <span className="product-stock">Stock: {product.stock}</span>
+                </div>
+              </div>
+            </article>
+          ))}
         </div>
       )}
     </section>
