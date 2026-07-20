@@ -108,6 +108,7 @@
 }
 
 .product-view-field input,
+.product-view-field select,
 .product-view-field textarea {
   width: 100%;
   border: 1px solid var(--gris-claro);

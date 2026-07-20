@@ -35,6 +35,7 @@ const apiController = {
         const price = toNumberOrDefault(body.price, 0);
         const stock = toNumberOrDefault(body.stock, 0);
         const image = typeof body.image === 'string' ? body.image.trim() : '';
+        const categoryId = body.category_id === '' || body.category_id === undefined || body.category_id === null ? null : Number(body.category_id);
 
         if (!name) {
             return res.status(400).json({ error: 'El nombre es requerido' });
@@ -49,7 +50,8 @@ const apiController = {
             description,
             price,
             image,
-            stock
+            stock,
+            category_id: categoryId
         });
 
         return res.status(201).json(newProduct);
@@ -69,6 +71,7 @@ const apiController = {
         const price = toNumberOrDefault(body.price, 0);
         const stock = toNumberOrDefault(body.stock, 0);
         const image = typeof body.image === 'string' ? body.image.trim() : '';
+        const categoryId = body.category_id === '' || body.category_id === undefined || body.category_id === null ? null : Number(body.category_id);
 
         if (!name) {
             return res.status(400).json({ error: 'El nombre es requerido' });
@@ -83,7 +86,8 @@ const apiController = {
             description,
             price,
             image,
-            stock
+            stock,
+            category_id: categoryId
         });
 
         return res.json(updatedProduct);
