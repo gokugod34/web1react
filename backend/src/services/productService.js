@@ -43,14 +43,15 @@ module.exports = {
         const price = Number(payload.price);
         const image = typeof payload.image === 'string' ? payload.image.trim() : '';
         const stock = Number(payload.stock);
+        const categoryId = payload.category_id ?? null;
 
         const stmt = db.prepare(`
             UPDATE products
-            SET name = ?, description = ?, price = ?, image = ?, stock = ?
+            SET name = ?, description = ?, price = ?, image = ?, stock = ?, category_id = ?
             WHERE id = ?
         `);
 
-        stmt.run(name, description, price, image, stock, id);
+        stmt.run(name, description, price, image, stock, categoryId, id);
         return module.exports.findById(id);
     },
 

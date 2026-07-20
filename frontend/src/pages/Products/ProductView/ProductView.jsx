@@ -7,7 +7,8 @@ const buildFormState = (product) => ({
   description: product?.description ?? '',
   price: product?.price ?? 0,
   stock: product?.stock ?? 0,
-  image: product?.image ?? ''
+  image: product?.image ?? '',
+  category_id: product?.category_id ?? ''
 });
 
 const toIntegerOrZero = (value) => {
@@ -35,9 +36,29 @@ export default function ProductView() {
 
   const [product, setProduct] = useState(null);
   const [formData, setFormData] = useState(buildFormState());
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(!isNew);
   const [error, setError] = useState('');
   const [submitError, setSubmitError] = useState('');
+
+  useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        const response = await fetch('/api/categories');
+
+        if (!response.ok) {
+          throw new Error('No se pudieron cargar las categorías');
+        }
+
+        const data = await response.json();
+        setCategories(Array.isArray(data) ? data : []);
+      } catch {
+        setCategories([]);
+      }
+    };
+
+    loadCategories();
+  }, []);
 
   useEffect(() => {
     const loadProduct = async () => {
@@ -130,7 +151,8 @@ export default function ProductView() {
           description: formData.description,
           price: Number.isFinite(priceValue) ? priceValue : 0,
           image: formData.image,
-          stock: Number.isFinite(stockValue) ? stockValue : 0
+          stock: Number.isFinite(stockValue) ? stockValue : 0,
+          category_id: formData.category_id === '' ? null : formData.category_id
         })
       });
 
@@ -305,6 +327,22 @@ export default function ProductView() {
                 Quitar imagen
               </button>
             </div>
+          </div>
+
+          <div className="product-view-field">
+            <label htmlFor="product-category">Categoría</label>
+            <select
+              id="product-category"
+              value={formData.category_id}
+              onChange={(event) => updateField('category_id', event.target.value)}
+            >
+              <option value="">Sin categoría</option>
+              {categories.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
           </div>
 
           {submitError ? <p className="product-view-error">{submitError}</p> : null}
