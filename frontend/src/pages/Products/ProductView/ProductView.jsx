@@ -140,7 +140,7 @@ export default function ProductView() {
     try {
       setSubmitError('');
 
-      const url = isNew ? '/api/products/new' : `/api/products/${id}/edit`;
+      const url = isNew ? '/api/products' : `/api/products/${id}`;
       const response = await fetch(url, {
         method: isNew ? 'POST' : 'PUT',
         headers: {
@@ -177,7 +177,7 @@ export default function ProductView() {
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(`/api/products/${id}/delete`, {
+      const response = await fetch(`/api/products/${id}`, {
         method: 'DELETE'
       });
 
