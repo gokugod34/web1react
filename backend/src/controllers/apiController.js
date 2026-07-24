@@ -105,6 +105,9 @@ const apiController = {
         return res.status(204).send();
     },
 
+    
+    // US #3: API REST DE CATEGORÍAS
+    
     listCategories: (req, res) => {
         res.json(categoryService.findAll());
     },
@@ -161,7 +164,8 @@ const apiController = {
         }
 
         categoryService.remove(categoryId);
-        return res.status(204).send();
+        
+        return res.status(200).json({ message: 'Categoría eliminada con éxito' });
     },
 
     listUsers: (req, res) => {
@@ -237,6 +241,22 @@ const apiController = {
 
         userService.remove(userId);
         return res.status(204).send();
+    },
+
+    // US #4: API DE MÉTRICAS GENERALES (STATS)
+    
+    getStats: (req, res) => {
+        try {
+            const totalProducts = productService.findAll().length;
+            const totalCategories = categoryService.findAll().length;
+
+            return res.status(200).json({
+                totalProducts: totalProducts,
+                totalCategories: totalCategories
+            });
+        } catch (error) {
+            return res.status(500).json({ error: 'Error al obtener las estadísticas' });
+        }
     }
 };
 
