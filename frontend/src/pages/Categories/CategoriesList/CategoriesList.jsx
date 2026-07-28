@@ -48,7 +48,7 @@ export default function CategoriesList() {
     }
 
     try {
-      const response = await fetch(`/api/categories/${id}/delete`, {
+      const response = await fetch(`/api/categories/${id}`, {
         method: 'DELETE'
       });
 

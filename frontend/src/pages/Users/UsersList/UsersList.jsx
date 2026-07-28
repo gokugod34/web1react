@@ -48,7 +48,7 @@ export default function UsersList() {
     }
 
     try {
-      const response = await fetch(`/api/users/${id}/delete`, {
+      const response = await fetch(`/api/users/${id}`, {
         method: 'DELETE'
       });
 
