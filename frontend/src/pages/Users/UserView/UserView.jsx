@@ -70,7 +70,7 @@ export default function UserView() {
     try {
       setSubmitError('');
 
-      const url = isEditing ? `/api/users/${id}/edit` : '/api/users/new';
+      const url = isEditing ? `/api/users/${id}` : '/api/users';
       const response = await fetch(url, {
         method: isEditing ? 'PUT' : 'POST',
         headers: {

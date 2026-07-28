@@ -64,7 +64,7 @@ export default function CategoryView() {
     try {
       setSubmitError('');
 
-      const url = isEditing ? `/api/categories/${id}/edit` : '/api/categories/new';
+      const url = isEditing ? `/api/categories/${id}` : '/api/categories';
       const response = await fetch(url, {
         method: isEditing ? 'PUT' : 'POST',
         headers: {
