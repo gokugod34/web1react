@@ -121,6 +121,14 @@ const userController = {
 
     logout: (req, res) => {
         req.session.destroy(() => res.redirect('/'));
+    },
+
+    profile: (req, res) => {
+        if (!req.session.user) {
+            return res.redirect('/login');
+        }
+
+        res.render('pages/profile', { title: 'Mi Perfil', user: req.session.user });
     }
 };
 

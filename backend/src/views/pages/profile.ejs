@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - Vimet Store</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <%- include('../partials/organisms/header') %>
+    <%- include('../partials/molecules/categoryMenu') %>
+
+    <main class="auth-page-main">
+        <section class="auth-section" aria-label="Mi perfil">
+            <div class="auth-header">
+                <h2>Mi Perfil</h2>
+                <p>Tus datos de cuenta en Vimet Store</p>
+            </div>
+
+            <div class="auth-form">
+                <div class="form-group">
+                    <label>Nombre</label>
+                    <p><%= user.name %></p>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <p><%= user.email %></p>
+                </div>
+                <div class="form-group">
+                    <label>Rol</label>
+                    <p><%= user.role === 'administrador' ? 'Administrador' : 'Cliente' %></p>
+                </div>
+            </div>
+
+            <div class="auth-divider">
+                <span>o</span>
+            </div>
+
+            <div class="auth-links">
+                <a href="/logout" class="btn btn-outline btn-block">Cerrar sesión</a>
+            </div>
+        </section>
+    </main>
+
+    <%- include('../partials/organisms/footer') %>
+</body>
+</html>
