@@ -53,9 +53,9 @@ const mainController = require('./controllers/mainController');
 // Rutas
 app.get('/', mainController.index);
 
-app.get('/login', (req, res) => {
-    res.render('pages/login', { title: 'Iniciar Sesión' });
-});
+app.get('/login', userController.login);
+app.post('/login', userController.processLogin);
+app.get('/logout', userController.logout);
 
 app.get('/register', userController.register);
 app.post('/register', userController.processRegister);

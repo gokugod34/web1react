@@ -1,8 +1,11 @@
+const bcrypt = require('bcryptjs');
+const userService = require('../services/userService');
+
 const userController = {
     register: (req, res) => {
         res.render('pages/register', { title: 'Registro' });
     },
-    processRegister: (req, res) => {
+    processRegister: async (req, res) => {
         // 1. Sanitización
         let { firstName, lastName, email, password } = req.body;
         firstName = firstName ? firstName.trim() : '';
@@ -60,8 +63,64 @@ const userController = {
             });
         }
 
-        // Si pasa todas las validaciones
-        res.send('Registro exitoso (validaciones aprobadas)');
+        // Si pasa todas las validaciones: hashear y persistir
+        try {
+            const passwordHash = await bcrypt.hash(password, 10);
+            const newUser = userService.create({
+                name: `${firstName} ${lastName}`,
+                email,
+                password_hash: passwordHash,
+                role: 'cliente'
+            });
+
+            req.session.user = {
+                id: newUser.id,
+                name: newUser.name,
+                email: newUser.email,
+                role: newUser.role
+            };
+
+            return res.redirect('/');
+        } catch (err) {
+            return res.render('pages/register', {
+                title: 'Registro',
+                errors: { email: err.message || 'No se pudo completar el registro.' },
+                oldData: req.body
+            });
+        }
+    },
+
+    login: (req, res) => {
+        res.render('pages/login', { title: 'Iniciar Sesión' });
+    },
+
+    processLogin: async (req, res) => {
+        const { email, password } = req.body;
+
+        const user = email ? userService.findByEmail(email.trim()) : null;
+        const passwordMatches = user && user.password_hash
+            ? await bcrypt.compare(password || '', user.password_hash)
+            : false;
+
+        if (!user || !passwordMatches) {
+            return res.render('pages/login', {
+                title: 'Iniciar Sesión',
+                error: 'Email o contraseña incorrectos'
+            });
+        }
+
+        req.session.user = {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            role: user.role
+        };
+
+        return res.redirect('/');
+    },
+
+    logout: (req, res) => {
+        req.session.destroy(() => res.redirect('/'));
     }
 };
 
