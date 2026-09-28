@@ -140,6 +140,30 @@
   color: var(--gris-oscuro);
 }
 
+/* Role Badge */
+.role-badge {
+  display: inline-block;
+  font-family: var(--fuente-secundaria);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+}
+
+.role-badge--cliente {
+  background-color: var(--gris-claro);
+  color: var(--gris-oscuro);
+  border-color: var(--gris-claro);
+}
+
+.role-badge--admin {
+  background-color: var(--turquesa);
+  color: var(--negro);
+  border-color: var(--turquesa);
+}
+
 /* Actions Cell & Buttons */
 .actions-cell {
   display: flex;

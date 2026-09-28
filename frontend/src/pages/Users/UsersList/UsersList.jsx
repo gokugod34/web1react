@@ -102,6 +102,7 @@ export default function UsersList() {
                 <th>ID</th>
                 <th>Nombre</th>
                 <th>Email</th>
+                <th>Rol</th>
                 <th className="actions-header">Acciones</th>
               </tr>
             </thead>
@@ -116,6 +117,11 @@ export default function UsersList() {
                     {user.name}
                   </td>
                   <td className="user-email-cell">{user.email}</td>
+                  <td>
+                    <span className={`role-badge ${user.role === 'administrador' ? 'role-badge--admin' : 'role-badge--cliente'}`}>
+                      {user.role === 'administrador' ? 'Administrador' : 'Cliente'}
+                    </span>
+                  </td>
                   <td className="actions-cell">
                     <button
                       className="btn-action btn-edit"

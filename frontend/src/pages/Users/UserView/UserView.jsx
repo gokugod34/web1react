@@ -4,7 +4,8 @@ import './UserView.css';
 
 const buildFormState = (user) => ({
   name: user?.name ?? '',
-  email: user?.email ?? ''
+  email: user?.email ?? '',
+  role: user?.role === 'administrador' ? 'administrador' : 'cliente'
 });
 
 export default function UserView() {
@@ -78,7 +79,8 @@ export default function UserView() {
         },
         body: JSON.stringify({
           name: trimmedName,
-          email: trimmedEmail
+          email: trimmedEmail,
+          role: formData.role
         })
       });
 
@@ -142,6 +144,20 @@ export default function UserView() {
               value={formData.email}
               onChange={handleChange}
             />
+          </div>
+
+          {/* Rol */}
+          <div className="user-view-field full-width">
+            <label htmlFor="role">Rol</label>
+            <select
+              id="role"
+              name="role"
+              value={formData.role}
+              onChange={handleChange}
+            >
+              <option value="cliente">Cliente</option>
+              <option value="administrador">Administrador</option>
+            </select>
           </div>
         </div>
 

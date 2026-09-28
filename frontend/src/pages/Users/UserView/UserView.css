@@ -84,7 +84,8 @@
   letter-spacing: 0.5px;
 }
 
-.user-view-field input {
+.user-view-field input,
+.user-view-field select {
   background-color: var(--blanco);
   color: var(--negro);
   border: 1px solid var(--gris-claro);
@@ -98,7 +99,8 @@
 }
 
 /* Elegant Focus State with Glow */
-.user-view-field input:focus {
+.user-view-field input:focus,
+.user-view-field select:focus {
   border-color: var(--turquesa);
   box-shadow: 0 0 10px rgba(0, 203, 214, 0.3);
 }
