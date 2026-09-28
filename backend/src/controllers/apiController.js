@@ -186,6 +186,7 @@ const apiController = {
         const body = req.body || {};
         const name = typeof body.name === 'string' ? body.name.trim() : '';
         const email = typeof body.email === 'string' ? body.email.trim() : '';
+        const role = body.role === 'administrador' ? 'administrador' : 'cliente';
 
         if (!name) {
             return res.status(400).json({ error: 'El nombre es requerido' });
@@ -196,7 +197,7 @@ const apiController = {
         }
 
         try {
-            const newUser = userService.create({ name, email });
+            const newUser = userService.create({ name, email, role });
             return res.status(201).json(newUser);
         } catch (err) {
             return res.status(400).json({ error: err.message || 'No se pudo crear el usuario' });
@@ -214,6 +215,7 @@ const apiController = {
         const body = req.body || {};
         const name = typeof body.name === 'string' ? body.name.trim() : '';
         const email = typeof body.email === 'string' ? body.email.trim() : '';
+        const role = body.role === 'administrador' ? 'administrador' : 'cliente';
 
         if (!name) {
             return res.status(400).json({ error: 'El nombre es requerido' });
@@ -224,7 +226,7 @@ const apiController = {
         }
 
         try {
-            const updatedUser = userService.update(userId, { name, email });
+            const updatedUser = userService.update(userId, { name, email, role });
             return res.json(updatedUser);
         } catch (err) {
             return res.status(400).json({ error: err.message || 'No se pudo actualizar el usuario' });
