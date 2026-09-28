@@ -48,6 +48,12 @@ app.use((req, res, next) => {
     next();
 });
 
+// Middleware para exponer el usuario logueado a todas las vistas
+app.use((req, res, next) => {
+    res.locals.currentUser = req.session.user || null;
+    next();
+});
+
 const mainController = require('./controllers/mainController');
 
 // Rutas
@@ -59,6 +65,8 @@ app.get('/logout', userController.logout);
 
 app.get('/register', userController.register);
 app.post('/register', userController.processRegister);
+
+app.get('/profile', userController.profile);
 
 const productRoute = require('./routes/productRoute');
 app.use('/products', productRoute);
